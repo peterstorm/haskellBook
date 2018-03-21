@@ -1,9 +1,11 @@
 module PatternMatching where
 
+-- small examples
 isItTwo :: Integer -> Bool
 isItTwo 2 = True
 isItTwo _ = False
 
+-- Username and Accountnumber example
 newtype Username =
   Username String
 
@@ -31,6 +33,9 @@ myAcc = AccountNumber 1010
 rUser :: User
 rUser = RegisteredUser myUser myAcc
 
+
+
+-- Penguins datatype example (yay!)
 data WherePenguinsLive
   = Galapagos
   | Antarctica
