@@ -49,3 +49,14 @@ codersRuleCEOsDrool Coder Coder = EQ
 codersRuleCEOsDrool Coder _     = GT
 codersRuleCEOsDrool _ Coder     = LT
 codersRuleCEOsDrool e e' = compare e e'
+
+-- EXERSICES
+
+dodgy :: Num a => a -> a -> a
+dodgy x y = x + y * 10
+
+oneIsOne :: Num a => a -> a
+oneIsOne = dodgy 1
+
+oneIsTwo :: Num a => a -> a
+oneIsTwo = (flip dodgy) 2
