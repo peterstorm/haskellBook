@@ -26,6 +26,7 @@ reportBoss e e' =
              " is the boss of " ++
              show e'
 
+-- has `compare` buildt in
 employeeRank :: Employee -> Employee -> IO ()
 employeeRank e e' =
   case compare e e' of
@@ -33,6 +34,7 @@ employeeRank e e' =
     EQ -> putStrLn "Neither employee is the boss"
     LT -> (flip reportBoss) e e'
 
+-- now takes a function `f` as an argument, used for comparing
 employeeRank' :: (Employee -> Employee -> Ordering) -> Employee -> Employee -> IO ()
 employeeRank' f e e' =
   case f e e' of
@@ -40,6 +42,8 @@ employeeRank' f e e' =
     EQ -> putStrLn "Neither employee is the boss"
     LT -> (flip reportBoss) e e'
 
+-- function that abuses the patter matching cases of
+-- employeeRank :D
 codersRuleCEOsDrool :: Employee -> Employee -> Ordering
 codersRuleCEOsDrool Coder Coder = EQ
 codersRuleCEOsDrool Coder _     = GT
