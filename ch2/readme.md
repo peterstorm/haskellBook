@@ -82,3 +82,66 @@ cArea r = 3.14 * (r * r)
 cArea' r = pi * (r * r)
 ```
 
+## 2.6 Infix operators
+
+Functions in Haskell default to _prefix_ syntax, meaning the function being applied to an argument is at the beginning of the
+expression. The _id_ function returns whatever it is given as an argument, and is prefix:
+
+```Haskell
+Prelude> id 1
+1
+Prelude> id "string"
+"string"
+```
+
+Not all functions are prefix. Arithmetic operators like _+_ and _-_ are _infix_ and are _still_ functions. All operators
+are function, but not all functions are operators.
+
+```haskell
+Prelude> 1 + 1
+2
+```
+
+You can use functions that are usually _prefix_, with an _infix_ style, with a small change to the syntax:
+
+```haskell
+Prelude> 10 `div` 4
+2
+Prelude> div 10 4
+2
+```
+
+`div` takes to arguments (currying) and as you can see above can be used infix style.
+
+You can also an _infix_ operator as a prefix operator by wrapping it in parentheses:
+
+```haskell
+Prelude> (+) 100 100
+200
+Prelude> (*) 3 3
+9
+```
+
+### Associativity and precedence
+
+Haskell is based on math, so the above is also true. We can ask GHCi for the `:info` about an operator or function. It tells
+you all sorts of good information, and about associativity and precedence if applicable.
+
+```haskell
+:info (*)
+infixl 7 *
+
+:info (+) (-)
+infixl 6 +
+infixl 6 -
+```
+
+_*_ is left associative and has a higher precedence than _+_ and _-_ (higher number = higher precedence).
+Left associativty means that an expression like `2 * 3 * 4` is evaluated from left to right, as in `(2 * 3) * 4`.
+
+An example of right associativity is:
+
+```haskell
+Prelude> :info (^)
+infixr 8 ^
+```
