@@ -152,7 +152,7 @@ Prelude> 2 ^ (3 ^ 4)
 4096
 ```
 
-## 2.7 Declaring valuesi
+## 2.7 Declaring values
 
 When declaring values in a source file, the order of declaring the values does not matter, but doing it in the REPL does.
 
@@ -164,4 +164,14 @@ Prelude> myResult = x * 5
 
 This makes sense, hopefully. In a source file like [learn.hs](../ch2/learn.hs) you can declare it all however you want, because
 GHCi loads the entire file at once.
+
+```
+Then we have a whole section on style, which I will not go into - just remember WHITESPACE MATTERS!
+```
+
+```
+And after thet style guide, there is a whole section on modulus. Go read about it.
+```
+
+## 2.9 Parenthesization
 
