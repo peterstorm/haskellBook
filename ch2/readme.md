@@ -16,4 +16,11 @@ When working with Haskell code, normally a project will be comprised of _source 
 To load up a source file in Prelude, you do the following:
 
 ```Haskell
-
+-- load up the source file
+Prelude> :load test.hs
+-- run the "program"
+Prelude> sayHello "Haskell"
+-- output
+Hello, Haskell!
+Prelude>
+```
