@@ -11,5 +11,5 @@ If something is _in base_ it means it is found in the Prelude.
 
 When working with Haskell code, normally a project will be comprised of _source files_, which are files denoted with the _.hs_ file extension.
 
-[Writing a simple source file, looks like this] (../blob/master/ch2/test.hs)
+[Writing a simple source file, looks like this](../blob/master/ch2/test.hs)
 
