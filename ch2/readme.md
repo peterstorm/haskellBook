@@ -170,7 +170,7 @@ Then we have a whole section on style, which I will not go into - just remember 
 ```
 
 ```
-And after thet style guide, there is a whole section on modulus. Go read about it.
+And after the style guide, there is a whole section on modulus. Go read about it.
 ```
 
 ## 2.9 Parenthesization
