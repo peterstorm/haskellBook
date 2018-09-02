@@ -111,9 +111,9 @@ Prelude> div 10 4
 2
 ```
 
-`div` takes to arguments (currying) and as you can see above can be used infix style.
+`div` takes two arguments (currying) and as you can see above can be used infix style.
 
-You can also an _infix_ operator as a prefix operator by wrapping it in parentheses:
+You can also use an _infix_ operator as a prefix operator by wrapping it in parentheses:
 
 ```haskell
 Prelude> (+) 100 100
@@ -139,9 +139,29 @@ infixl 6 -
 _*_ is left associative and has a higher precedence than _+_ and _-_ (higher number = higher precedence).
 Left associativty means that an expression like `2 * 3 * 4` is evaluated from left to right, as in `(2 * 3) * 4`.
 
-An example of right associativity is:
+An example of right associativity is exponentiation:
 
 ```haskell
 Prelude> :info (^)
 infixr 8 ^
+Prelude> 2 ^ 3 ^ 4
+2417851639229258349412352
+Prelude> 2 ^ (3 ^ 4)
+2417851639229258349412352
+(2 ^ 3) ^ 4
+4096
 ```
+
+## 2.7 Declaring valuesi
+
+When declaring values in a source file, the order of declaring the values does not matter, but doing it in the REPL does.
+
+```haskell
+Prelude> y = 10
+Prelude> x = 10 * 5 + y
+Prelude> myResult = x * 5
+```
+
+This makes sense, hopefully. In a source file like [learn.hs](../ch2/learn.hs) you can declare it all however you want, because
+GHCi loads the entire file at once.
+
