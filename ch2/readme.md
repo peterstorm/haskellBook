@@ -213,3 +213,39 @@ pass it, because it's waiting for it's last argument. So:
 Prelude> (+1) 2
 3
 ```
+
+We also call it _sectioning_ when we pass around partially applied functions like `(+1)`. When it's a commutative function
+like `(+)` it doesn't matter if we write it like `(+1)` or `(1+)` because the order of the arguments does not matter.
+But if you use sectioning with a function that is not commutative, the order _does_ matter:
+
+```haskell
+Prelude> (1/) 2
+0.5
+Prelude> (/1) 2
+2
+```
+
+Substraction is a special case, because if you write `(-2)` Haskell believes it to be an argument, or value. `(2-)` however
+does work.
+
+## 2.10 Let and where
+
+There's a subtle difference between _let_ and _where_. _let_ introduces and _expression_ so it can be used wherever you can
+have an expression, but _where_ is a _declaration_ and is bound to a surrounding syntactic context. Example:
+
+```haskell
+-- with where
+module FunctionWithWhere where
+
+printInc n = print plusTwo
+ where plusTwo = n + 2
+```
+
+```haskell
+-- with let
+module FunctionWithLet where
+
+printInc2 n = let plusTwo = n + 2
+               in print plusTwo
+```
+
