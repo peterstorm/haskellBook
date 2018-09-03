@@ -249,3 +249,22 @@ printInc2 n = let plusTwo = n + 2
                in print plusTwo
 ```
 
+### Exercises: A Head Code
+
+1. `let x = 5 in x` evaluates to `5`.
+2. `let x = 5 in x * x` evaluates to `25`.
+3. `let x = 5; y = 6 in x * y` evaluates to `30`.
+4. `let x = 3; y = 1000 in x + 3` evaluates to `6`.
+
+Now rewrite som _let_ expressions to _where_ declarations, for example:
+
+```haskell
+-- in GHCi
+let x = 5; y = 6 in x * y
+-- could be rewritten as
+
+-- put this in a file
+multiply1 = x * y
+  where x = 5
+        y = 6
+```
