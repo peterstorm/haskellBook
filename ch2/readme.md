@@ -175,3 +175,41 @@ And after the style guide, there is a whole section on modulus. Go read about it
 
 ## 2.9 Parenthesization
 
+The (_$_) operator is something that is frequently used. It's basically a way to stop having to write many, many
+parentheses, first the definition:
+
+`f $ a = f a`
+
+If we `:info ($)` it, it returns `infixr 0 $`.
+
+And as the example shows, you can use this operator to make sure everthing on the right of it (infixr) is evaluated first.
+
+```haskell
+Prelude> (2^) (2 + 2)
+16
+-- we can replace the parentheses
+Prelude> (2^) $ 2 + 2
+16
+-- if we try without either the parens or $
+Prelude> (2^) 2 + 2
+6
+```
+
+You can also stack mulitple uses of _$_, like so:
+
+```haskell
+Prelude> (2^) $ (+2) $ 3 * 2
+256
+```
+
+### Parenthesizing infix operators
+
+As you've noticed in the previous section, we have been using operators like _^_ and _+_ in a weird way, namely something called
+a _partially applied function_. If you use these operators as infix, like `(+)` you can partially apply it, by adding in
+a number. So if you write `(+1)` the _+_ operator is partially applied with _1_ and will then add _1_ to whatever number you
+pass it, because it's waiting for it's last argument. So:
+
+```haskell
+Prelude> (+1) 2
+3
+```
