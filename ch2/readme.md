@@ -268,3 +268,13 @@ multiply1 = x * y
   where x = 5
         y = 6
 ```
+
+Rewrite with _where_ clauses:
+
+```haskell
+-- 1.
+let x = 3; y = 1000 in x * 3 + y
+-- becomes
+example1 = x * 3 + y
+ where x = 3
+       y = 1000
