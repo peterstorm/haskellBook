@@ -181,6 +181,7 @@ Answer: yes.
 Lets look at _(++)_ and _concat_.
 
 `++     has the type [a] -> [a] -> [a]`
+and
 `concat has the type [[a]] -> [a]`
 
 So _concat_ takes a list of lists, which could be a list of strings or could literally be a list of lists, like:
@@ -240,5 +241,20 @@ Prelude> drop 9001 "Papuchon"
 ""
 Prelude> drop 1 "Papuchon"
 "apuchon"
+```
 
+All these functions are standard Prelude functions, but they are all considered _unsafe_. They are unsafe because they don't cover the case when they are given an empty list as an input.
+Instead they throw an exception. More on this later.
+
+## 3.8 Chapter Exercises
+
+**Reading syntax**
+
+Are the following lines of code correct? Check them in the REPL after your answer, and correct them if they are not correct.
+
+1. `concat [[1, 2, 3], [4, 5, 6]]`
+   Correct.
+
+2. `++ [1, 2, 3] [4, 5, 6]
+   Not correct, fixed: `(++) [1, 2, 3] [4, 5, 6]`
 
