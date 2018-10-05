@@ -138,4 +138,6 @@ Prelude> if True then t else f
 
 So here `True` of course evaluates to `True`, and we return the first branch of the if expression. Had it evaluated to `False` then we would return `"Falsin'"`.
 
+There's a few examples of an if-then-else expression [here](../ch4/greetIfCool.hs) and [here](../ch4/greetIfCool2.hs).
+
 
