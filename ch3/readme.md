@@ -252,9 +252,9 @@ Instead they throw an exception. More on this later.
 
 Are the following lines of code correct? Check them in the REPL after your answer, and correct them if they are not correct.
 
-1. `concat [[1, 2, 3], [4, 5, 6]]`
+1. `concat [[1, 2, 3], [4, 5, 6]]`  
    Correct.
 
-2. `++ [1, 2, 3] [4, 5, 6]`
+2. `++ [1, 2, 3] [4, 5, 6]`  
    Not correct, fixed: `(++) [1, 2, 3] [4, 5, 6]`
 
