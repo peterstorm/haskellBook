@@ -200,4 +200,45 @@ Same thing applies with `(++)`.
 
 Here we just have two examples, [one correct](../ch3/print3Flipped.hs) and [a wrong one](../ch3/print3Broken.hs) because of local definition. Fixed version is [here](../ch3/print3Fixed.hs).
 
+## 3.7 More list functions
+
+The `(:)` operator is called _cons_, and it builds lists.
+```haskell
+Prelude> 'c' : "hris"
+"chris"
+Prelude> 'P' : ""
+"P"
+```
+
+`head` takes the first element of a list
+```haskell
+Prelude> head "Papuchon"
+'P'
+```
+
+`tail` returns everything _but_ the head
+```haskell
+Prelude> tail "Papuchon"
+"apuchon"
+```
+
+`take` takes a number of elements, starting from the left
+```haskell
+Prelude> take 1 "Papuchon"
+"P"
+Prelude> take 0 "Papuchon"
+""
+Prelude> take 6 "Papuchon"
+"Papuch"
+```
+
+`drop` returns the remainder of the list after the specified number of elements has been dropped
+```haskell
+Prelude> drop 4 "Papuchon"
+"chon"
+Prelude> drop 9001 "Papuchon"
+""
+Prelude> drop 1 "Papuchon"
+"apuchon"
+
 
