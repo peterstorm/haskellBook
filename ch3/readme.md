@@ -289,7 +289,8 @@ Are the following lines of code correct? Check them in the REPL after your answe
 
 Given the list manipulating functions mentioned, write functions that take the following input and return the expected outputs.
 
-1. ```
+1. 
+```
 -- Given
 "Curry is awesome"
 -- Return
