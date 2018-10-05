@@ -138,3 +138,64 @@ topLevelFunction x =
 topLevelValue :: Integer
 topLevelValue = 5
 ```
+
+Here _topLevelValue_ and _topLevelFunction_ are both available to everything in the module, and could be imported to be used in a different module.
+However `woot` is effectively invisible outsite of _topLevelFunction_.
+
+**Exercises: Scope**
+
+1. These lines of code are from a REPL session. Is _y_ in scope for _z_?
+```haskell
+Prelude> x = 5
+Prelude> y = 7
+Prelude> z = x * y
+```
+Answer: yes.
+
+2. REPL session. Is _h_ in scope for _g_?
+```haskell
+Prelude> f = 3
+Prelude> g = 6 * f + h
+```
+
+Answer: no.
+
+3. This is from a source file. Is everthing we need to exceute _area_ in scope?
+```haskell
+area d = pi * (r * r)
+r = d / 2
+```
+
+Answer: no.
+
+4. This is from a source file. Is everything correct?
+```haskell
+area d = pi * (r * r)
+  where r = d / 2
+```
+
+Answer: yes.
+
+## 3.5 Types of concatenation functions
+
+Lets look at _(++)_ and _concat_.
+
+`++     has the type [a] -> [a] -> [a]`
+`concat has the type [[a]] -> [a]`
+
+So _concat_ takes a list of lists, which could be a list of strings or could literally be a list of lists, like:
+
+```haskell
+Prelude> concat [[1, 2], [3, 4, 5], [6, 7]]
+[1, 2, 3, 4, 5, 6, 7]
+Prelude> concat ["Iowa", "Melman", "Django"]
+"IowaMelmanDjango"
+```
+
+The [_a_] in the type signature of _concat_ means that we have a list of a type _a_ we don't know yet, but it can be anything that can be in a list.
+The signature also says that we cannot for example have a list of _String_ and `concat` it with a list of numbers, because the _a_ has to be the same.
+Same thing applies with `(++)`.
+
+## 3.6 Concatenation and scoping
+
+Here we just have two examples, [one correct](../ch3/print3Flipped.hs) and [a wrong one](../ch3/print3Broken.hs) because of local definition.
