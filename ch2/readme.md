@@ -297,3 +297,15 @@ example3 = z / x + y
        y = negate x
        z = y * 10
 ```
+
+## 2.11 Chapter Exercises
+
+### Parenthesization
+
+Attempt to reason the following expressions:
+
+```
+-- 1.
+2 + 2 * 3 - 1
+
+! This is a spoiler test!
