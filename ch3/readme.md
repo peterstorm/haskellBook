@@ -243,6 +243,15 @@ Prelude> drop 1 "Papuchon"
 "apuchon"
 ```
 
+The infix operator `(!!)`, returns the element that is in the specified position in the list.
+Note that it uses _index zero_, so it starts from 0 and not `.
+```haskell
+Prelude> "Papuchon" !! 0
+'P'
+Prelude> "Papuchon" !! 4
+'c'
+```
+
 All these functions are standard Prelude functions, but they are all considered _unsafe_. They are unsafe because they don't cover the case when they are given an empty list as an input.
 Instead they throw an exception. More on this later.
 
@@ -257,4 +266,35 @@ Are the following lines of code correct? Check them in the REPL after your answe
 
 2. `++ [1, 2, 3] [4, 5, 6]`  
    Not correct, fixed: `(++) [1, 2, 3] [4, 5, 6]`
+
+3. `(++) "hello" " world"`  
+   Correct.
+
+4. `["hello" ++ " world"]`  
+   Not correct. Fixed: `concat ["hello", " world"]`
+
+5. `4 !! "hello"`  
+   Not correct. Fixed: `"hello" !! 4`
+
+6. `(!!) "hello" 4`  
+   Correct.
+
+7. `take "4 lovely"`  
+   Wrong. Fixed: `take 4 "lovely"`  
+
+8. `take 3 "awesome"`  
+   Correct.
+
+**Building functions**
+
+Given the list manipulating functions mentioned, write functions that take the following input and return the expected outputs.
+
+1. ```
+-- Given
+"Curry is awesome"
+-- Return
+"Curry is awesome!"
+-- Solution
+"Curry is awesome" ++ "!"
+```
 
