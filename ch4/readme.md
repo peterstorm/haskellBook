@@ -140,4 +140,35 @@ So here `True` of course evaluates to `True`, and we return the first branch of 
 
 There's a few examples of an if-then-else expression [here](../ch4/greetIfCool.hs) and [here](../ch4/greetIfCool2.hs).
 
+## 4.7 Tuples
+
+_Tuple_ is a type that allows you to store and pass around multiple (and different) values withing a single value.
+They look like this: `(1,2)` or `("hello", "world")`.
+The constructor of the tuple is `(,)`, the datatype declaration looks like this:
+
+```haskell
+Prelude> :i (,)
+data (,) a b = (,) a b
+```
+
+A tuple is a _product type_, which is a logical conjunction: you must supply _both_ arguments to construct a value.
+
+We have some convenience functions for the _two-tuple_, like so:
+
+```haskell
+fst :: (a, b) -> a
+snd :: (a, b) -> b
+```
+
+They do what they sound like, take return the first or second element of the tuple.
+
+Let's try and implement `fst` and `snd` ourselves, by using _pattern matching_ (more on that later).
+
+```
+fst' :: (a, b) -> a
+fst' (a, b) = a
+
+snd' :: (a, b) -> b
+snd' (a, b) -> b
+```
 
