@@ -290,7 +290,7 @@ Are the following lines of code correct? Check them in the REPL after your answe
 Given the list manipulating functions mentioned, write functions that take the following input and return the expected outputs.
 
 1. 
-```
+```haskell
 -- Given
 "Curry is awesome"
 -- Return
@@ -299,3 +299,12 @@ Given the list manipulating functions mentioned, write functions that take the f
 "Curry is awesome" ++ "!"
 ```
 
+2.
+```haskell
+-- Given
+"Curry is awesome!"
+-- Return
+"y"
+-- Solution
+(!!) "Curry is awesome!" 4
+```
