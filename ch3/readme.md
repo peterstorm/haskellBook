@@ -88,7 +88,7 @@ Prelude>
 **String concatenation**
 
 To _concatenate_ something means to _link together_. Usually when we're concatenating in programming we are talking about linear sequences such as lists or strings of text.
-For example `"Curry"` and `" Rocks"` becomes `Curry Rocks` if we concatenate them.
+For example `"Curry"` and `" Rocks"` becomes `"Curry Rocks"` if we concatenate them.
 
 Now let's start a new file:
 
@@ -111,4 +111,30 @@ main = do
   putStrLn secondGreeting
   where secondGreeting = 
           concat [hello, " ", world]
+```
+
+This little exercise demonstrates a few things:
+1. We defined values at the top level of a module: (_myGreeting, hello, world_ and _main_). That is, they were declared at the top level so they are available throughout the module.
+2. We specify explicit types for each top-level definition.
+3. We concatenate strings with `(++)` and `concat`.
+
+## 3.4 Top-level versus local definitions
+
+Top-level definitions means that they are not nested within anything else, and they are in scope throughout the whole module.
+A local definition is nested within some other expression and is not visible outside that expression.
+
+Here's an example:
+
+```haskell
+-- topOrLocal.hs
+module TopOrLocal where
+
+topLevelFunction :: Integer -> Integer
+topLevelFunction x = 
+  x + woot + topLevelValue
+  where woot :: Integer
+        woot = 10
+
+topLevelValue :: Integer
+topLevelValue = 5
 ```

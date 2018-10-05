@@ -14,4 +14,4 @@ main = do
   putStrLn myGreeting
   putStrLn secondGreeting
   where secondGreeting =
-          concat [hello, " ", world]
+          concat [hello, " ", "world]
