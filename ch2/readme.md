@@ -302,12 +302,97 @@ example3 = z / x + y
 
 ### Parenthesization
 
-Attempt to reason the following expressions:
+Attempt to reason the following expressions with parentheses:
 
 ```
 -- 1.
 2 + 2 * 3 - 1
+-- becomes
+2 + (2 * 3) - 1
+
+-- 2.
+(^) 10 $ 1 + 1
+-- becomes
+(^) 10 (1 + 1)
+
+-- 3. 
+2 ^ 2 * 4 ^ 5 + 1
+-- becomes
+(2 ^ 2) * (4 ^ 5) + 1
 ```
 
+### Equivalent Expressions
 
->! This is a spoiler test!
+Attempt to reason which pairs of expressions will return the same result when evaluated:
+
+```
+-- 1.
+1 + 1
+2
+-- equivalent
+
+-- 2.
+10 ^ 2
+10 + 9 * 10
+-- equivalent
+
+-- 3.
+400 - 37
+(-) 37 400
+-- not equivalent
+
+-- 4.
+100 `div` 3
+100 / 3
+-- not equivalent
+
+-- 5.
+2 * 5 + 18
+2 * (5 + 18)
+-- not equivalent
+```
+
+### More fun with functions
+
+Enter the follwoing expressions in the REPL:
+
+```
+z = 7
+y = z + 8
+x = y ^ 2
+waxOn = x * 5
+-- waxOn = 1125
+```
+
+1. Now that you have a value called `waxOn` in the REPL, what will happen if you enter:
+```
+Prelude> 10 + waxOn
+1135
+Prelude> (+10) waxOn
+1135
+Prelude> (-) 15 waxOn
+-1110
+Prelude> (-) waxOn 15
+1110
+```
+
+2. Enter the `triple` function in the REPL, from earlier `triple x = x * 3`.
+
+3. What do you think will happen if we enter `triple waxOn` in the REPL?
+```
+Prelude> triple waxOn
+3375
+```
+
+4. Rewrite `waxOn` as an expression with a _where_ clause in a source file.
+
+5. To the same source file, add the `triple` function.
+
+6. Now add a function called _waxOff_ in the file, `waxOff x = triple x`.
+
+[Source file here.](../ch2/waxOn.hs)
+
+
+
+
+
