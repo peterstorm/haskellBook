@@ -304,7 +304,7 @@ example3 = z / x + y
 
 Attempt to reason the following expressions with parentheses:
 
-```
+```haskell
 -- 1.
 2 + 2 * 3 - 1
 -- becomes
@@ -325,7 +325,7 @@ Attempt to reason the following expressions with parentheses:
 
 Attempt to reason which pairs of expressions will return the same result when evaluated:
 
-```
+```haskell
 -- 1.
 1 + 1
 2
@@ -356,7 +356,7 @@ Attempt to reason which pairs of expressions will return the same result when ev
 
 Enter the follwoing expressions in the REPL:
 
-```
+```haskell
 z = 7
 y = z + 8
 x = y ^ 2
@@ -365,7 +365,7 @@ waxOn = x * 5
 ```
 
 1. Now that you have a value called `waxOn` in the REPL, what will happen if you enter:
-```
+```haskell
 Prelude> 10 + waxOn
 1135
 Prelude> (+10) waxOn
@@ -379,7 +379,7 @@ Prelude> (-) waxOn 15
 2. Enter the `triple` function in the REPL, from earlier `triple x = x * 3`.
 
 3. What do you think will happen if we enter `triple waxOn` in the REPL?
-```
+```haskell
 Prelude> triple waxOn
 3375
 ```
