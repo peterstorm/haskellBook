@@ -1,4 +1,4 @@
-#Chapther 3 - Strings
+# Chapther 3 - Strings
 ## 3.1 Printing strings
 
 In this chapter we will:
@@ -74,4 +74,41 @@ main = do
   putStr   "one, two"
   putStr   ", three, and"
   putStrLn " four!"
+```
+
+The output of main in this case will be:
+
+```haskell
+Prelude> main
+Count to four for me:
+one, twom three, and four!
+Prelude>
+```
+
+**String concatenation**
+
+To _concatenate_ something means to _link together_. Usually when we're concatenating in programming we are talking about linear sequences such as lists or strings of text.
+For example `"Curry"` and `" Rocks"` becomes `Curry Rocks` if we concatenate them.
+
+Now let's start a new file:
+
+```haskell
+-- print3.hs
+module Print3 where
+
+myGreeting :: String
+myGreeting = "hello" ++ " world!"
+
+hello :: String
+hello = "hello"
+
+world :: String
+world = "world!"
+
+main :: IO ()
+main = do
+  putStrLn myGreeting
+  putStrLn secondGreeting
+  where secondGreeting = 
+          concat [hello, " ", world]
 ```
