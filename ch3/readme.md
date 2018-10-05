@@ -85,7 +85,7 @@ one, twom three, and four!
 Prelude>
 ```
 
-**String concatenation**
+### String concatenation
 
 To _concatenate_ something means to _link together_. Usually when we're concatenating in programming we are talking about linear sequences such as lists or strings of text.
 For example `"Curry"` and `" Rocks"` becomes `"Curry Rocks"` if we concatenate them.
@@ -142,7 +142,7 @@ topLevelValue = 5
 Here _topLevelValue_ and _topLevelFunction_ are both available to everything in the module, and could be imported to be used in a different module.
 However `woot` is effectively invisible outsite of _topLevelFunction_.
 
-**Exercises: Scope**
+### Exercises: Scope
 
 1. These lines of code are from a REPL session. Is _y_ in scope for _z_?
 ```haskell
@@ -257,7 +257,7 @@ Instead they throw an exception. More on this later.
 
 ## 3.8 Chapter Exercises
 
-**Reading syntax**
+### Reading syntax
 
 Are the following lines of code correct? Check them in the REPL after your answer, and correct them if they are not correct.
 
@@ -285,7 +285,7 @@ Are the following lines of code correct? Check them in the REPL after your answe
 8. `take 3 "awesome"`  
    Correct.
 
-**Building functions**
+### Building functions
 
 Given the list manipulating functions mentioned, write functions that take the following input and return the expected outputs.
 
