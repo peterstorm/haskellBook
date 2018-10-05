@@ -198,4 +198,6 @@ Same thing applies with `(++)`.
 
 ## 3.6 Concatenation and scoping
 
-Here we just have two examples, [one correct](../ch3/print3Flipped.hs) and [a wrong one](../ch3/print3Broken.hs) because of local definition.
+Here we just have two examples, [one correct](../ch3/print3Flipped.hs) and [a wrong one](../ch3/print3Broken.hs) because of local definition. Fixed version is [here](../ch3/print3Fixed.hs).
+
+
