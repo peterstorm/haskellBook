@@ -44,7 +44,7 @@ Prelude> not True
 False
 ```
 
-**Exersices: Mood Swing**
+### Exercises: Mood Swing
 
 Given the following datatype answer the following question:
 
@@ -77,5 +77,65 @@ changeMood Woot = Blah
 
 I will be honest, that part is way too long. You will have to read up on it when you need to use different numberic types.
 
+## 4.5 Comparing values
+
+In the Prelude we can compare values using the hopefully wellknown _less than_,  _greater than_ and _equals_.
+
+```haskell
+Prelude> x = 5
+Prelude> x == 5
+True
+Prelude> x == 6
+False
+Prelude> x < 7
+True
+Prelude> x > 3
+True
+Prelude> x /= 5
+False
+```
+
+Note the difference between `=` and `==`. `=` is used to declare values, and `==` is used to check for equality. `/=` checks for _not_ equal to.
+
+Then we have some mention of _type class constraints_ which we will get to later as well. Specifically `Eq a` and `Ord a` which are type classes for things that can be compared and ordered.
+If a data type does _not_ implement an instance of the above type classes, you cannot compare or order them.
+
+So our `Mood` data type could not compare or order the two data constructors `Blah` or `Woot`, though you could implement it - more on that later.
+
+## 4.6 Go on and Bool me
+
+Loads of examples using the `Bool` data type. Only new thing is the operators `&&` and `||` which respectively means _and_ and _or_.
+
+### Exercises: Find the Mistakes
+
+Some of these lines of code will not compile, identify and fix.
+
+1. `not True && true`  
+   Won't compile, fix: `not True && True` evaluates to `False`.
+
+2. `not (x = 6)`  
+   Not sure what this should be fixed as, but won't compile.
+
+3. `(1 * 2) > 5`  
+   Compiles to `False`.
+
+4. `[Merry] > [Happy]`  
+   Does not compile, missing double quotes. Fix: `["Merry"] > ["Happy"]` evaluates to `True`.
+
+5. `[1, 2, 3] ++ "look at me!"`  
+   Won't compile as you can't concatenate lists of two different types.
+
+### Conditionals with if-then-else
+
+Haskell does not have 'if' statements, but it does have _if expressions_, example:
+
+```haskell
+Prelude> t = "Truthin'"
+Prelude> f = "Falsin'"
+Prelude> if True then t else f
+"Truthin'"
+```
+
+So here `True` of course evaluates to `True`, and we return the first branch of the if expression. Had it evaluated to `False` then we would return `"Falsin'"`.
 
 
