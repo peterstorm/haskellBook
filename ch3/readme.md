@@ -308,3 +308,31 @@ Given the list manipulating functions mentioned, write functions that take the f
 -- Solution
 (!!) "Curry is awesome!" 4
 ```
+
+3.
+```haskell
+-- Given
+"Curry is awesome!"
+-- Return
+"awesome"
+-- Solution
+drop 9 "Curry is awesome!"
+```
+
+Now write a function of type `String -> Char` which returns the third character in a string.
+
+```haskell
+thirdLetter :: String -> Char
+thirdLetter x  = (!!) x 2
+```
+
+Now change the function so the string operated on is always the same, and the variable in the index of the string.
+
+```haskell
+letterIndex :: Int -> Char
+letterIndex x = (!!) "Curry is awesome!" x
+```
+
+Now lets try and use the functions we've learned to make a function that reverses "Curry is awesome" and returns "awesome is Curry".
+Put it in a module. Solution [here](../ch3/rvrs.hs).
+
