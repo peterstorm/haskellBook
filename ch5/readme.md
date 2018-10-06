@@ -403,3 +403,11 @@ methods.
     ```
 
 3.
+    ```haskell
+    -- given
+    f :: a -> b -> b
+
+    -- we can only implement this by throwing the first argument away, because there a no constraints.
+    -- and for it to work, we have to do the most general thing, because we could not for example add a string and a number
+    f a b = b
+    ```
