@@ -226,3 +226,12 @@ Prelude> x + 3 == 5
 ```  
 Answer: type is `Bool` and the result is `False`.
 
+7. This one we will skip, but they are small and quite easy.
+
+8. Write a function that tell you whether or not a given String (or list) is a palindrome. Use a predefined function called `reverse`, that reverses a String.
+```haskell
+isPalindrome :: (Eq a) => [a] -> Bool
+isPalindrome x = x == reverse x
+```
+
+
