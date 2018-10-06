@@ -71,8 +71,335 @@ Prelude> addFive 10
 15
 ```
 
-## Manual currying, currying and uncurrying existing functions, sectioning
+## 5.4 Currying
 
-I'll skip this, read it for yourselves.
+All functions in Haskell accept one argument and return a result. Passing
+multiple arguments through is syntactic sugar for what's really going on.
+
+`(->)` is infix and right associative:
+
+```haskell
+f :: a -> a -> a
+-- associates to
+f :: a -> (a -> a)
+
+map :: (a -> b) -> [a] -> [b]
+-- associates to
+map :: (a -> b) -> ([a] -> [b])
+```
+
+This grouping serves to group parameters into argument and result - it does not
+change the order of evaluation.
 
 
+### Partial application
+
+```haskell
+  subStuff :: Integer -> Integer -> Integer
+  subStuff a b = a - b - 10
+
+  -- which is the same as
+  subStuff :: Integer -> (Integer -> Integer)
+
+  -- if we attempt the following
+  subOne = subStuff 1
+  -- we won't be subtracting 1 from anything, because of how arguments are partially
+  -- applied in Haskell:
+  -- subOne b = 1 - b - 10
+  -- Arguments are applied left to right
+```
+
+## Manual currying and uncurrying
+
+To uncurry `(+)` we need to pass in both arguments at once. This can be done using
+a tuple.
+
+```haskell
+  -- Initially we have the following for (+)
+  (+) :: Num a => a -> a -> a
+
+  -- Uncurried
+  (+) :: Num a => (a, a) -> a
+```
+
+- _Uncurried_ functions - one function, many arguments
+- _Curried_ functions - many functions, one argument each
+
+The following 4 functions are equivalent:
+
+```haskell
+  -- setup
+  nonsense :: Bool -> Integer
+  nonsense True = 805
+  nonsense False = 31337
+
+  -- curried
+  curriedFunction :: Integer -> Bool -> Integer
+  curriedFunction i b = i + (nonsense b)
+
+  -- uncurried using tuple
+  uncurriedFunction :: (Integer, Bool) -> Integer
+  uncurriedFunction (i, b) = i + (nonsense b)
+
+  -- curried using a lambda
+  anonymous :: Integer -> Bool -> Integer
+  anonymous = \i b -> i + (nonsense b)
+
+  -- manually currying with multiple lambdas
+  -- this function doesn't use Haskell's autocurrying
+  anonNested :: Integer -> Bool -> Integer
+  anonNested = \i -> \b -> i + (nonsense b)
+```
+
+### Currying and uncurrying existing functions
+
+We can curry existing functions by considering how uncurried functions already
+work.
+
+Uncurried functions take a tuple (basically multiple arguments). If we take the
+original uncurried function, and then manually build the tuple, we can create a
+curried version of the function:
+
+```haskell
+  -- take a function, and 2 constituents we build into a tuple, and apply f to
+  -- the tuple
+  curry :: f -> a -> b -> f (a, b)
+
+  -- we know that fst has the following type signature:
+  -- fst :: (a, b) -> a
+
+  -- we can now build a curried version of fst
+  curriedFst :: a -> b -> a
+  curriedFst a b = curry fst a b
+
+  curriedFst 2 1
+  2
+```
+
+We can uncurry a function similarly:
+
+```haskell
+  -- take a function and 2 arguments in a tuple, and then apply the function to
+  -- them at once
+  uncurry :: f -> (a, b) -> f a b
+  uncurry f (a, b) = f a b
+
+  -- we can now uncurry (+)
+  uncurriedAddition :: Num a => (a, a) -> a
+  uncurriedAddition (a, b) => uncurried (+) (a, b)
+
+  uncurriedAddition (1, 2)
+  3
+```
+
+### Sectioning
+
+_Sectioning_ refers to partial application of infix operators.
+
+_Sectioning_ allows one to specify whether an infix operator should be partially
+applied to the first or second argument:
+
+```haskell
+  baseTwo :: Num a -> a
+  baseTwo = (2^)
+
+  square :: Num a -> a
+  square = (^2)
+
+  baseTwo 3
+  8
+
+  square 3
+  9
+```
+
+This can also be done with prefix functions that have a backtick infix
+equivalent:
+
+```haskell
+  intDivByThree :: Num a => a
+  intDivByThree = `div` 3
+
+  intDivOfThree :: Num a => a
+  intDivOfThree = 3 `div`
+```
+
+### Exercises: Type arguments
+
+1.
+    ```haskell
+      -- given
+      f :: a -> a -> a -> a
+
+      -- and x :: Char
+      -- then
+      f x :: Char -> Char -> Char
+    ```
+
+2.
+    ```haskell
+      -- given
+      g :: a -> b -> c -> b
+
+      -- then
+      g 0 'c' "woot" :: Char
+    ```
+
+3.
+    ```haskell
+      -- given
+      h :: (Num a, Num b) => a -> b -> b
+
+      -- then
+      h 1.0 2 :: Num b => b
+    ```
+
+4.
+    ```haskell
+      -- given
+      h :: (Num a, Num b) => a -> b -> b
+
+      -- then
+      h 1 (5.5 :: Double) :: Double
+    ```
+
+5.
+    ```haskell
+      -- given
+      jackal :: (Ord a, Eq b) => a -> b -> a
+
+      -- then
+      jackal "keyboard" "has the word keyboard" :: [Char]
+    ```
+
+6.
+    ```haskell
+      -- given
+      jackal :: (Ord a, Eq b) => a -> b -> a
+
+      -- then
+      jackal "keyboard" :: Eq b => b -> [Char]
+    ```
+
+7.
+    ```haskell
+      -- given
+      kessel :: (Ord a, Num b) => a -> b -> a
+
+      -- then
+      kessel 1 2 :: (Ord a, Num a) => a
+
+      -- Because 'b' has a Num constraint 'a' requires the constraint, too, in
+      -- order for whatever Ord is required for to operate on both values.
+
+      -- If we evaluate Ord using (>) we can see what happens as arguments are
+      -- passed in:
+      :t (>)
+      (>) :: Ord a => a -> a -> Bool
+
+      -- the partially applied (>) expects the next parameter with an
+      -- additional constraint
+      :t (>) 1
+      (>) 1 :: (Ord a, Num a) => a -> Bool
+
+      :t (>) 'a'
+      (>) 'a' :: Char -> Bool
+    ```
+
+8.
+    ```haskell
+      -- given
+      kessel :: (Ord a, Num b) => a -> b -> a
+
+      -- then
+      kessel 1 (2 :: Integer) :: (Ord a, Num a) => a
+
+      -- this is the same as in 7
+      -- we don't care about the type of 'b', because we don't use it. We care
+      -- only about the constraints imposed on 'a' as a result of the signature
+    ```
+
+9.
+    ```haskell
+      -- given
+      kessel :: (Ord a, Num b) => a -> b -> a
+
+      -- then
+      kessel (1 :: Integer) 2 :: Integer
+
+      -- Integer is the type because it (mostly) doesn't matter what type 'b' is;
+      -- kessel only returns the value of 'a', therefore our type is that of 'a',
+      -- which in this case is Integer
+    ```
+
+## 5.5 Polymorphism
+
+_Polymorphic_ means "made of many forms", which is in contrast with
+_monomorphic_; made of one form.
+
+Type signatures may have three types:
+
+- concrete types
+- constrained polymorphic types
+- parametric polymorphic types
+
+_Constrained polymorphism_ in Haskell is sometimes referred to as _ad-hoc_
+polymorphism in other langauges.
+
+_Ad-hoc polymorphism_ is implemented with typeclasses in Haskell.
+
+_Paramatric polymorphism_ refers to type variables, parameters, that are fully
+polymorphic; the final concrete type of a variable could be anything.
+
+If a variable can be anything, then there's not much that can be done with it.
+If a variable has a type, then it has access to the methods available to it in
+that type.
+
+Types inherit from their superclasses, and may not override their superclass
+methods.
+
+```haskell
+  -- Num is a superclass of Int
+  :i Num
+    instance Num Int
+
+  -- Integral is a superclass of Int
+  :i Integral
+    instance Integral Int
+
+  -- or more succinctly
+  :i Int
+    instance Integral Int
+    instance Num Int
+
+  -- Int inherits methods from both Integral and Num
+```
+
+### Exercises: Parametricity
+
+1.
+    ```haskell
+      -- given
+      f :: a -> a
+
+      -- there's nothing we can do apart from define f as follows:
+      f a = a
+
+      -- we have to return just 'a', because we have no idea what methods are
+      -- available to 'a' because it is parametrically polymorphic.
+    ```
+
+2.
+    ```haskell
+      -- given
+      f :: a -> a -> a
+
+      -- we can only define 2 functions, because we have 2 parameters, but know
+      -- nothing about which methods are available to apply to them:
+      f a b = a
+
+      -- or
+      f a b = b
+    ```
+
+3.
