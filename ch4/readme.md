@@ -160,11 +160,11 @@ fst :: (a, b) -> a
 snd :: (a, b) -> b
 ```
 
-They do what they sound like, take return the first or second element of the tuple.
+They do what they sound like, return the first or second element of the tuple.
 
 Let's try and implement `fst` and `snd` ourselves, by using _pattern matching_ (more on that later).
 
-```
+```haskell
 fst' :: (a, b) -> a
 fst' (a, b) = a
 
@@ -172,3 +172,38 @@ snd' :: (a, b) -> b
 snd' (a, b) -> b
 ```
 
+Here is another example of pattern matching with tuples, where we have two different types in a tupple, and have a
+function that add them together, using plus for the _Int_ and `++` for the _list_.
+
+```haskell
+tupFunc :: (Int, [a]) -> (Int, [a]) -> [Int, [a])
+tupFunc (a, b) (c, d) = ((a + c), (b ++ d))
+```
+
+## 4.8 Lists
+
+Lists are another type used to contain multiple values withtin a single value. They do however have to be the same type.
+
+## 4.9 Chapter Exercises
+
+```haskell
+awesome = ["Papuchon", "curry", ":)"]
+also = ["Quake", "The Simons"]
+allAwesome = [awesome, also]
+```
+`length` is a function that takes a list and returns a result of how many items are in the list.
+
+1. Given the definition, what type signature does `length` have?  
+   Quess: `[a] -> Int`. Answer: `Foldable t => t a -> Int`
+
+2. What are the results of the following expressions:
+* `length [1, 2, 3, 4, 5]`  
+  Answer: 5
+* `length [(1, 2), (2, 3), (3, 4)]`  
+  Answer: 3
+* `length allAwesome`  
+  Answer: 2
+* `length (concat allAwesome)`  
+  Answer: 5
+
+3. G
