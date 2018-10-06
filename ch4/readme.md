@@ -206,4 +206,23 @@ allAwesome = [awesome, also]
 * `length (concat allAwesome)`  
   Answer: 5
 
-3. G
+3. Given what we know about numeric types and the type signature of `length`, which of these expressions will return an error?  
+```haskell
+Prelude> 6 / 3
+Prelude> 6 / length [1, 2, 3]
+```  
+The answer is the second, as the return type of `length` is _Int_, and does not implement the use of `/`.
+
+4. How can we fix the broken code, using a different way of dividing?  
+   Answer: `div 6 $ length [1, 2, 3]`
+
+5. What is the type of the expression `2 + 3 == 5`?  
+   Answer: type is `Bool` and the result is `True`.
+
+6. What is the type and extected result value of the following:  
+```haskell
+Prelude> x = 5
+Prelude> x + 3 == 5
+```  
+Answer: type is `Bool` and the result is `False`.
+
