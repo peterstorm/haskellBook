@@ -234,4 +234,80 @@ isPalindrome :: (Eq a) => [a] -> Bool
 isPalindrome x = x == reverse x
 ```
 
+9. Write a function to return the absolute value of a number using if-then-else.
+```haskell
+myAbs :: Integer -> Integer
+myAbs x = if x >= 0 then x else negate x
+```
+
+10. Fill in the definition of the following function, using `fst` and `snd`:
+```haskell
+f :: (a, b) -> (c, d) -> ((b, d), (a, c))
+f x y = ((snd x, snd y), (fst x, fst y))
+```
+
+### Correcting syntax
+
+1. Here we want a function that adds 1 to the lenght of a string argument and returns the result.
+```haskell
+x = (+)
+
+F xs = w 'x' 1
+  where w = length xs
+
+-- FIXED
+
+f xs = x w 1
+  where w = length xs
+```
+
+2. This is supposed to be the identity function, `id`.
+```haskell
+\X = x
+
+-- FIXED
+
+id' = \x = x
+```
+
+3. When fixed this function will return 1 from the value (1, 2):
+```haskell
+F (a b) = A
+
+-- FIXED:
+
+f (a, b) = a
+```
+
+### Match the function names to their types
+
+Gonna just write the (hopefully correct answers)
+
+1. Which of the following types is the type of `show`?
+```haskell
+-- c)
+Show a => a -> String
+-- Answer is c!
+```
+
+2. Which of the folloing types is the type of `(==)`?
+```haskell
+-- b)
+Eq a => a -> a -> Bool
+-- Answer is b!
+```
+
+3. Which of the following types is the type of `fst`?
+```haskell
+-- a)
+(a, b) -> a
+-- Answer is a!
+```
+
+4. Which of the following types is the type of `(+)`?
+```haskell
+-- d)
+(+) :: Num a => a -> a -> a
+```
+
 
