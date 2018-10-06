@@ -308,6 +308,7 @@ Eq a => a -> a -> Bool
 ```haskell
 -- d)
 (+) :: Num a => a -> a -> a
+-- Answer is d!
 ```
 
 
