@@ -411,3 +411,98 @@ methods.
     -- and for it to work, we have to do the most general thing, because we could not for example add a string and a number
     f a b = b
     ```
+### Polymorphic constraints
+
+Numeric values are by default polymorphic until assigned a more specific type.
+
+```haskell
+:t (-10)
+(-10) :: Num a => a
+```
+
+This is called a _polymorphic constant_.
+
+We can assign more specific typeclasses to make values concrete:
+
+```haskell
+x = 5 :: Integer
+
+:t x
+x :: Integer
+```
+
+## 5.6 Type inference
+
+Haskell does not enforce type signatures because it uses type inference to
+determine the type of an expression.
+
+The compiler infers the most polymorphic type that is still correct.
+
+e.g. Numeric values are assigned `Num` unless they need to be more specific,
+such as in the case when using `(/)`.
+
+### Exercises: Apply Yourself
+
+1.
+    ```haskell
+    -- given
+    (++) :: [a] -> [a] -> [a]
+
+    -- how will it change when we apply it in the following way
+    myConcat x = x ++ "yo"
+
+    -- we get
+    myConcat :: [Char] -> [Char]
+    ```
+
+2.
+    ```haskell
+    -- given
+    (*) :: Num a => a -> a -> a
+
+    -- if we apply it
+    myMult x = (x / 3) * 5
+
+    -- we get
+    myMult :: Fractional a => a -> a
+    ```
+
+3.
+   ```haskell
+   -- given
+   take :: Int -> [a] -> [a]
+
+   -- applied
+   myTake x = take x "hey you"
+
+   -- we get
+   myTake :: Int -> [Char]
+   ```
+
+4.
+   ```haskell
+   -- given
+   (>) :: Ord a => a -> a -> Bool
+
+   -- applied
+   myCom x = x > (length [1..10])
+
+   -- we get
+   myCom :: Int -> Bool
+   ```
+
+5.
+   ```haskell
+   -- given
+   (<) :: Ord a => a -> a -> Bool
+
+   -- applied
+   myAlph x = x < 'z'
+
+   -- we get
+   myAlph :: Char -> Bool
+   ```
+
+
+
+
