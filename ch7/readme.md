@@ -136,6 +136,7 @@ We wrap it in parentheses to be able to apply arguments to the function, like `(
 
 2. The type of the above function is `Num a => a -> a -> a -> a`
    Which is the type of `mTh 3`?
+
    The type is `Num a => a -> a -> a`
 
 3. Rewrite the following:
