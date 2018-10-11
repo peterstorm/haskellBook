@@ -167,7 +167,8 @@ We wrap it in parentheses to be able to apply arguments to the function, like `(
 
    c.)
    ```haskell
-   -- given mFlip f = \x -> \y -> f y x
+   -- given
+   mFlip f = \x -> \y -> f y x
 
    -- into
    mFlip f x y = f y x
