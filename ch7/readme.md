@@ -155,3 +155,36 @@ We wrap it in parentheses to be able to apply arguments to the function, like `(
     False -> n
     where f = \n -> n + 1
    ```
+
+   b.)
+   ```haskell
+   -- given
+   addFive x y = (if x > y then y else x) + 5
+
+   -- into
+   addFive = \x -> \y -> (if x > y then y else x) + 5
+   ```
+
+   c.)
+   ```haskell
+   -- given mFlip f = \x -> \y -> f y x
+
+   -- into
+   mFlip f x y = f y x
+   ```
+
+## 7.4 Pattern matching
+
+Pattern matching is _awesome_! 
+Pattern matching matches against values or data constructors, _not_ types. Matching a pattern may fail, proceeding to the next available pattern to match or succeed. When a match succeeds, the variables exposed in the pattern are bound.
+Pattern matching proceedes from let to right and from outside to inside.
+We can pattern match on numbers, in the following example, if the _Integer_ argument to the function equals _2_, this will return `True`, otherwise `False`.
+
+```haskell
+isItTwo :: Integer -> Bool
+isItTwo 2 = True
+isItTwo _ = False
+```
+
+Note the `_` after the match against the value `2`. This is a means of defining a universal pattern that never fails to match. If you give it _anything_ else than `2`, the function returns `False`.
+
