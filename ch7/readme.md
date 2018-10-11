@@ -142,6 +142,7 @@ We wrap it in parentheses to be able to apply arguments to the function, like `(
 3. Rewrite the following:
 
    a.)
+
    ```haskell
    -- given
    addOneIfOdd n = case odd n of
@@ -157,6 +158,7 @@ We wrap it in parentheses to be able to apply arguments to the function, like `(
    ```
 
    b.)
+
    ```haskell
    -- given
    addFive x y = (if x > y then y else x) + 5
@@ -166,6 +168,7 @@ We wrap it in parentheses to be able to apply arguments to the function, like `(
    ```
 
    c.)
+
    ```haskell
    -- given
    mFlip f = \x -> \y -> f y x
