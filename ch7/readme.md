@@ -139,7 +139,8 @@ We wrap it in parentheses to be able to apply arguments to the function, like `(
    The type is `Num a => a -> a -> a`
 
 3. Rewrite the following:
-   a. )
+
+   a.)
    ```haskell
    -- given
    addOneIfOdd n = case odd n of
