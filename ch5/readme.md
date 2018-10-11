@@ -522,3 +522,418 @@ other people to understand.
 4. A function of type `(a, b) -> a`
     c.) takes a tuple argument and returns the first type
 
+### Determine the type
+
+1. 
+    a. Where
+    ```haskell
+    a = (*9) 6
+    ```
+
+    ```haskell
+    a :: Num a => a
+    ```
+
+    b. Where
+    ```haskell
+    b = head [(0, "doge"), (1, "kitteh")]
+    ```
+
+    ```haskell
+    b :: Num a => (a, [Char])
+    ```
+
+    c. Where
+    ```haskell
+    c = head [(0 :: Integer, "doge"), (1, "kitteh")]
+    ```
+
+    ```haskell
+    c :: (Integer, [Char])
+    ```
+
+    d. Where
+    ```haskell
+    d = if False then True else False
+    ```
+
+    ```haskell
+    d :: Bool
+    ```
+
+    e. Where
+    ```haskell
+    e = length [1, 2, 3, 4, 5]
+    ```
+
+    ```haskell
+    e :: Int
+    ```
+
+    f. Where
+    ```haskell
+    f = (length [1, 2, 3, 4]) > (length "TACOCAT")
+    ```
+
+    ```haskell
+    f :: Bool
+    ```
+
+2. 
+    ```haskell
+    x = 5
+    y = x + 5
+    w = y * 10
+    ```
+
+    ```haskell
+    w :: Num a => a
+    ```
+
+3. 
+    ```haskell
+    x = 5
+    y = x + 5
+    z y = y * 10
+    ```
+
+    `z`s `y` is scoped to `z`. The `y` declared outside is ignored, and
+
+    ```haskell
+    z :: Num a => a -> a
+    ```
+
+4. 
+    ```haskell
+    x = 5
+    y = x + 5
+    f = 4 / y
+    ```
+
+    ```haskell
+    f :: Fractional a => a
+    ```
+
+5. 
+    ```haskell
+    x = "Julie"
+    y = " <3 "
+    z = "Haskell"
+    f = x ++ y ++ z
+    ```
+
+    ```haskell
+    f :: [Char]
+    ```
+
+### Does it compile?
+
+1. Given
+    ```haskell
+    bigNum = (^) 5 $ 10
+    wahoo = bigNum $ 10
+    ```
+
+    `wahoo` does not resolve. `($)`s type signature shows that as an infix operator, it
+    expects the first argument to be a function, and the second some other term
+    to apply to that function.
+
+    i.e.
+    ```haskell
+    :t ($)
+    ($) :: (a -> b) -> a -> b
+    ```
+
+    To resolve, we need the expression before `$` in `wahoo` to be a function:
+
+    ```haskell
+    wahoo = (+) bigNum $ 10
+    ```
+
+    `$` is redudant in both functions here, because all it is doing is applying
+    the function on its left to the value on its right - something the functions
+    are doing anyways.
+
+
+2. Given
+    ```haskell
+    x = print
+    y = print "woohoo! "
+    z = x "hello world"
+    ```
+
+    Does compile. This is point-free style - x takes no explicit arguments.
+
+3. Given
+    ```haskell
+    a = (+)
+    b = 5
+    c = b 10
+    d = c 200
+    ```
+
+    Does not compile, because in `c` `b` can't be applied to `10` because `b` is
+    already in normal form.
+
+    To resolve one could add some operator to `c`:
+
+    ```haskell
+    c = a b 10
+    ```
+
+    Now `d` will not compile, because `c` is also in normal form. We need a
+    function to apply the two values in `d` to:
+
+    ```haskell
+    d = a c 200
+    ```
+
+4. Given
+    ```haskell
+    a = 12 + b
+    b = 10000 * c
+    ```
+
+    Does not compile. `b` is used before it is in scope (this only matters in
+    GHCi), and `c` is not in scope at all.
+
+    T resolve:
+    ```haskel
+    c = 1
+    b = 1000 * c
+    a = 12 + b
+    ```
+
+### Type variable or specific type constructor?
+
+Variables can be one of three types:
+
+- Fully polymorphic type variables - not constrained to any type e.g.
+    ```haskell
+    id a = a
+
+    -- id :: a -> a
+    -- where
+    -- a :: *
+    ```
+- Constrained polymormphic type variables - constrained to a type
+    ```haskell
+    add a b = (+) a b
+    -- add :: Num a => a -> a -> a
+    -- where both a and b
+    -- t :: Num
+    ```
+- Concrete type variables
+    ```haskell
+    -- strLength :: [Char] a => a -> Int
+    -- where a has to be of type [Char]
+    ```
+
+1. Where
+    ```haskell
+    f :: Num a => a -> b -> Int -> Int
+    --           [0]  [1]   [2]    [3]
+    -- [0] - constrained polymorphic
+    -- [1] - fully polymorphic
+    -- [2] [3] - concrete
+    ```
+
+2. Where
+    ```haskell
+    f :: zed -> Zed -> Blah
+    --   [0]    [1]     [2]
+    -- [0] - fully polymorphic
+    -- [1] [2] - concrete
+    ```
+
+3. Where
+    ```haskell
+    f :: Enum b => a -> b -> C
+    --            [0]  [1]  [2]
+    -- [0] - fully polymorphic
+    -- [1] - constrained polymorphic
+    -- [2] - concrete
+    ```
+
+4. Where
+    ```haskell
+    f :: f -> g -> C
+    --  [0]  [1]  [2]
+    -- [0] - fully polymorphic
+    -- [1] - fully polymorphic
+    -- [2] - concrete
+    ```
+
+### Write a type signature
+
+1. Given
+    ```haskell
+    -- given
+    functionH (x:_) = x
+
+    -- then
+    functionH :: [a] -> a
+    ```
+
+2. Given
+    ```haskell
+    -- given
+    functionC x y = if (x > y) then True else False
+
+    -- then
+    functionC :: Ord a => a -> a -> Bool
+    ```
+
+3. Given
+    ```haskell
+    -- given
+    functionS (x, y) = y
+
+    -- then
+    functionS :: (a, b) -> b
+    ```
+
+### Given a type, write the function
+
+1. Given
+    ```haskell
+    i :: a -> a
+    i x = x
+    ```
+
+2. Given
+    ```haskell
+    c :: a -> b -> a
+    c x y = x
+    ```
+
+3. Given
+    ```haskell
+    c'' :: b -> a -> b
+    ```
+    `c''` is equivalent to `c`
+
+4. Given
+    ```haskell
+    c' :: a -> b -> b
+    c x y = y
+    ```
+
+5. Given
+    ```haskell
+    r :: [a] -> [a]
+    r x = x
+    -- or
+    r x = f x
+        where f :: [a] -> [a]
+        -- f could be take, tail, drop, etc.
+    ```
+
+6. Given
+    ```haskell
+    co :: (b -> c) -> (a -> b) -> a -> c
+    co bToC aToB a = bToC (aToB a)
+    ```
+
+7. Given
+    ```haskell
+    a :: (a -> c) -> a -> a
+    a _ x = x
+    ```
+
+8. Given
+    ```haskell
+    a' :: (a -> b) -> a -> b
+    a' xToY x = xToY x
+    ```
+
+### Fix it
+
+1. [fix-it-1-sing.hs](./fix-it-1-sing.hs)
+2. [fix-it-2-sing.hs](./fix-it-2-sing.hs)
+3. [fix-it-3-arith3broken.hs](./fix-it-3-arith3broken.hs)
+
+### Type-Kwon-Do
+
+1.
+    ```haskell
+      -- given
+      f :: Int -> String
+      f = undefined
+
+      g :: String -> Char
+      g = undefined
+
+      h :: Int -> Char
+
+      -- then
+      h a = g (f a)
+    ```
+
+2.
+    ```haskell
+      -- given
+      data A
+      data B
+      data C
+
+      q :: A -> B
+      q = undefined
+
+      w :: B -> C
+      w = undefined
+
+      e :: A -> C
+
+      -- then
+      e a = w (q a)
+    ```
+
+3.
+    ```haskell
+      -- given
+      data X
+      data Y
+      data Z
+
+      xz :: X -> Z
+      xz = undefined
+
+      yz :: Y -> Z
+      yz = undefined
+
+      xform :: (X, Y) -> (Z, Z)
+
+      -- then
+      xForm (a, b) = (xz a, yz b)
+    ```
+
+4.
+    ```haskell
+      munge :: (x -> y) -> (y -> (w, z)) -> x -> w
+      munge xToY yToTuple x = fst (yToTuple ( xToY x ))
+    ```
+
+## 5.9 Definitions
+
+_Polymorphism_ refers to type variables which may have more than one concrete
+type.
+
+_Principal type_ is the most generic type that still typechecks (e.g. `Num` for
+numeric values is often the _principal type_ when a type is inferred).
+
+A _type variable_ is a way to refer to an unspecified type or set of types in
+Haskell type signatures.
+
+_Ad-hoc_ or _constrained_ polymorphism is polymorphism that applies one or more
+typeclass constraints to what would have been a parametrically polymorphic type
+variable.
+
+```haskell
+-- ad-hoc polymorphism via the Num typeclass
+(+) :: Num a => a -> a -> a
+
+-- vs parametric polymorphism
+c' :: a -> a -> a
+```
+
