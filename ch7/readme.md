@@ -190,5 +190,9 @@ isItTwo 2 = True
 isItTwo _ = False
 ```
 
-Note the `_` after the match against the value `2`. This is a means of defining a universal pattern that never fails to match. If you give it _anything_ else than `2`, the function returns `False`.
+Note the `_` after the match against the value `2`. This is a means of defining a universal pattern that never fails to match. If you give it _anything_ else than `2`, the function returns `False`. When you pattern match you should order your cases from most specific to least specific.
+
+
+
+
 
