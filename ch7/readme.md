@@ -192,6 +192,12 @@ isItTwo _ = False
 
 Note the `_` after the match against the value `2`. This is a means of defining a universal pattern that never fails to match. If you give it _anything_ else than `2`, the function returns `False`. When you pattern match you should order your cases from most specific to least specific.
 
+### Pattern matching against data constructors
+
+Again, pattern matching is awesome. We can pattern match against data conscructors, like this [this example](..ch7/registeredUser1.hs)
+
+Notice how the type of `RegisteredUser` is a function that constructs a `User` out of two arguments, `Username` and `AccountNumber`. This is what we mean when we refer to a value as a "data constructor".
+
 
 
 
