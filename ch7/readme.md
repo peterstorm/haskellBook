@@ -198,7 +198,9 @@ Again, pattern matching is awesome. We can pattern match against data conscructo
 
 Notice how the type of `RegisteredUser` is a function that constructs a `User` out of two arguments, `Username` and `AccountNumber`. This is what we mean when we refer to a value as a "data constructor".
 
+Notice in the example how we are unpacking the values of `RegisteredUser` via pattern matching. The idea of unpacking is important, so let's examine [another example.](../ch7/wherePenguinsLive.hs)
 
+In this example we pattern match again, not much to say.
 
 
 
