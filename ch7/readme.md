@@ -194,7 +194,7 @@ Note the `_` after the match against the value `2`. This is a means of defining 
 
 ### Pattern matching against data constructors
 
-Again, pattern matching is awesome. We can pattern match against data conscructors, like this [this example](..ch7/registeredUser1.hs)
+Again, pattern matching is awesome. We can pattern match against data conscructors, like this [this example](../ch7/registeredUser1.hs)
 
 Notice how the type of `RegisteredUser` is a function that constructs a `User` out of two arguments, `Username` and `AccountNumber`. This is what we mean when we refer to a value as a "data constructor".
 
