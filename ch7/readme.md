@@ -241,3 +241,20 @@ third3 :: (a, b, c) -> c
 third3 (_, _, x) = x
 ```
 
+### Exercises: Variety pack
+
+1.
+    ```haskell
+    -- Given the following:
+    k (x, y) = x
+    k1 = k ((4-1), 10)
+    k2 = k ("three", (1 + 2))
+    k3 = k (3, True)
+    ```
+    a) What kind of type does `k` have? 
+    The type of `k` is `k :: (a, b) -> a`
+
+
+    
+
+
