@@ -202,5 +202,42 @@ Notice in the example how we are unpacking the values of `RegisteredUser` via pa
 
 In this example we pattern match again, not much to say.
 
+### Pattern matching on tuples
 
+Earlier in the chapter, we had a function like this:
+
+```haskell
+f :: (a, b) -> (c, d) -> ((b, d), (a, c))
+f x y = ((snd x, snd y), (fst x, fst y))
+```
+
+We can write that in a little more intuitive way, using pattern matching:
+
+```haskell
+f :: (a, b) -> (c, d) -> ((b, d), (a, c))
+f (a, b) (b, c) = ((b, d), (a, c))
+```
+
+The function definition looks a lot more like the type.
+
+And now a bit more examples of tuple functions:
+
+```haskell
+module TupleFunctions where
+
+-- using pattern matching
+addEmUp :: Num a => (a, a) -> a
+addEmUp (x, y) = x + y
+
+-- using the normal inbuilt functions
+addEmUpAlt :: Num a => (a, a) -> a
+addEmUpAlt x = (fst x) + (snd x)
+
+-- again using pattern matching
+fst3 :: (a, b, c) -> a
+fst3 (x, _, _) = x
+
+third3 :: (a, b, c) -> c
+third3 (_, _, x) = x
+```
 
