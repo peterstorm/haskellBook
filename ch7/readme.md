@@ -254,7 +254,63 @@ third3 (_, _, x) = x
     a) What kind of type does `k` have?  
     The type of `k` is `k :: (a, b) -> a`
 
+    b) What is the type of `k2`? Is it the same as `k1` or `k3`?  
+    The type of `k2` is `k2 :: String`, and not the same as the other two
 
-    
+    c) Of `k1`, `k2` and `k3`, which will return the result of 3?  
+    `k1` and `k3` will return 3.
+    ```
+
+2.
+    Fill in the definition of the following function:
+    ```haskell
+    f :: (a, b, c) -> (d, e, f) -> ((a, d), (c, f)
+    f (a, _, c) (d, _, f) = ((a, d), (c, f))
+    ```
+
+## 7.5 Case expressions
+
+_Case expressions_ are kind of similar to _if-then-else_ expressions, in the way we can make a function return different results, depending of different outputs.
+You can use case expressions with any datatype that has visible data constructors. Consider `Bool`.
+
+```haskell
+data Bool = False | True
+```
+
+As with almost everything else, we need to consider both cases, `True` and `False`. Let's looke at a simple `in then else` expressions from earlier chapters.
+
+```haskell
+:: (Eq a, Num a) => a -> String
+if x + 1 == 1 then "AWESOME!" else "wut"
+```
+
+We can rewrite this expression using a _case expression_, matching on the data constructors of Bool.
+
+```haskell
+funcZ :: (Eq a, Num a) => a -> String
+funcZ x = 
+  case x + 1 == 1 of
+    True -> "AWESOME"
+    False -> "wut"
+```
+
+We can also rewrite a different earlier function, where we checked if a word is a palindrome.
+
+```haskell
+pal :: Eq a => [a] -> String
+pal x =
+  case x == reverse x of
+    True -> "yes"
+    False -> "no"
+
+-- you can also write it with a where clause
+
+pal' :: Eq => [a] -> String
+pal' x =
+  case y of
+    True -> "yes"
+    False -> "no"
+  where y = x == reverse x
+```
 
 
