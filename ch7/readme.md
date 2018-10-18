@@ -321,7 +321,7 @@ greetIfCool :: String -> IO ()
 greetIfCool coolness =
   case cool of
     True -> putStrLn "eyyy, what's shakin'?"
-    False -> putStrnLn "psssh"
+    False -> putStrLn "psssh"
   where cool = coolness == "downright frosty yo"
 ```
 
@@ -369,3 +369,9 @@ We need to rewrite a couple of _if then else_ expresssions.
       EQ -> 0
       LT -> -1
     ```
+
+## 7.6 Higher-order Functions
+
+_Higher-order functions_ are functions that take other functions as it's argument. Very important in functional programming, as it lets combine functions efficiently.
+
+
