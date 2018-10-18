@@ -259,7 +259,6 @@ third3 (_, _, x) = x
 
     c) Of `k1`, `k2` and `k3`, which will return the result of 3?  
     `k1` and `k3` will return 3.
-    ```
 
 2.
     Fill in the definition of the following function:
@@ -313,4 +312,60 @@ pal' x =
   where y = x == reverse x
 ```
 
+We can also rewrite another function from earlier, where we had an especially cool or cold greeting, depending what you gave it.
 
+```haskell
+module GreetIfCool3 where
+
+greetIfCool :: String -> IO ()
+greetIfCool coolness =
+  case cool of
+    True -> putStrLn "eyyy, what's shakin'?"
+    False -> putStrnLn "psssh"
+  where cool = coolness == "downright frosty yo"
+```
+
+### Exercises: Case practice
+
+We need to rewrite a couple of _if then else_ expresssions.
+
+1.
+    The following should return `x` when `x` is greater than `y`.
+    ```haskell
+    functionC :: Ord a => a -> a -> a
+    functionC x y = if (x > y) then x else y
+
+    -- with a case expression
+    functionC' :: Ord a => a -> a -> a
+    functionC' x y = case x > y of
+      True -> x
+      False -> y
+    ```
+
+2.
+    This function will add 2 to even numbers else return the input number
+    ```haskell
+    ifEvenAdd2 :: Integral a => a -> a
+    ifEvenAdd2 n = if even n then (n + 2) else n
+
+    -- with a case expression
+    ifEvenAdd2' :: Integral a => a -> a
+    ifEvenAdd2' n = case even n of
+      True -> n + 2
+      False -> n
+    ```
+3.
+    The next function does not have all cases covered, fix it.
+    ```haskell
+    nums :: (Ord a, Num a, Num b) => a -> b
+    nums x = case compare x 0 of
+      GT -> 1
+      LT -> -1
+
+    -- fixed:
+    nums :: (Ord a, Num a, Num b) => a -> b
+    nums x = case compare x 0 of
+      GT -> 1
+      EQ -> 0
+      LT -> -1
+    ```
