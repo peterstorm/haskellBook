@@ -425,7 +425,6 @@ codersRule :: Employee -> Employee -> Ordering
 codersRule Coder Coder = EQ
 codersRule Coder _     = GT
 codersRule _     Coder = LT
-codersRule e e'        = compare e ecodersRule _     Coder = LT
 codersRule e e'        = compare e e''
 ```
 
