@@ -471,7 +471,7 @@ dogYears x
   | x <= 1     = x * 15
   | x <= 2     = x * 12
   | x <= 3     = x * 8
-  | otherweise = x * 6
+  | otherwise = x * 6
 ```
 
 We can also use _where_ clauses in guard blocks. Let's say we have a test with 100 questions and we want to calculate the grade from
@@ -487,3 +487,47 @@ averageGrade x
   | y < 0.59  = 'F'
   where y = x / 100
 ```
+
+### Exercises: Guard Duty
+
+1.
+    If you put the _otherwise_ clause as your top most guard, what would happen?  
+    A: We would always evaulate that guard clause, as _otherwise_ is the same as saying _True_.
+
+2.
+    What happens if you take `averageGrade` and reorders the guards? What happens if you move `| y >= 0.7 = 'C'` to the top?  
+    A: Again anytime this guard clause would be evaluated to _True_, we would return _C_, and that means you could never get an _A_ or _B_ anymore.
+
+3.
+    The following function returns:  
+    ```haskell
+    pal xs
+      | xs == reverse xs = True
+      | otherwise        = False
+    ```
+    b) True when `xs` is a palindrome.
+
+4.
+    What type of arguments can `pal` take?  
+    A: List of a's or `[a]`.
+
+5.
+    What is the type of the function `pal`:  
+    `pal :: Eq a => [a] -> Bool`
+
+6.
+    The following function returns:  
+    ```haskell
+    numbers x
+      | x < 0  = -1
+      | x == 0 = 0
+      | x > 0  = 1
+    ```
+    c) An indication of whether it's argument is a positive or negative number, or zero.
+
+7.
+    What types of arguments can `numbers` take?  
+    A: Any number that can be ordered, so `(Ord a, Num a) => a`.
+
+8.
+    
