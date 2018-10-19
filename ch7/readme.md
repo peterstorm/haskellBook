@@ -530,4 +530,79 @@ averageGrade x
     A: Any number that can be ordered, so `(Ord a, Num a) => a`.
 
 8.
-    
+    What is the type of the function `numbers`?  
+    A: `(Ord a, Num a, Num b) => a -> b`
+
+## 7.8 Function composition
+
+Function composition is a type of higher-order function that allows us to combine functions such that the result of
+applying one function gets passed to the next function as an argument. Function composition is basically in the 
+spirit of Haskell, being based so much on lambda calculus.
+Let us look at the type signature for `(.)` which is function composition.
+
+```haskell
+(.) :: (b -> c) -> (a -> b) -> a -> c
+--      [1]          [2]      [3]  [4]
+```
+
+1. is a function from b to c.
+2. is a function from a to b.
+3. is a value of type a, the same as [2] expects.
+4. is a value of type c, the same as the output of [1]
+
+So in plain english, given a function from _b_ to _c_, a function from _a_ to _b_, return a function from _a_ to _c_.
+
+`a -----> b ----> c`
+
+So if you compose to functions in Haskell, you get something like this:
+
+```haskell
+(f . g) x = f (g x)
+```
+If we take a specific example, we can negate the sum of a list, like so:
+
+```haskell
+negate . sum $ [1..5]
+```
+
+We still need the `($)` operator, if we didn't the expression would evaluate like so:
+
+```haskell
+negate . sum [1..5]
+-- to
+negate . 15
+```
+
+And you cannot compose a function with a numeric value. This happens because function application is the highest precedence, whitespace (10 out of 10), so the expression
+will evalute `sum` first, and then try to compose afer. We need the `($)` to tell our compiler to wait with function application, to _after_ we have composed
+the two functions.
+
+We could also write the function as follows:
+
+```haskell
+(negate . sum) [1..5]
+-- or
+negate (sum [1..5])
+```
+
+So you may be wondering why even bother with function composition, when all it seems to do is remove the need for nesting functions in parentheses.
+The reason is that function composition makes in incredibly easy to compose more than _two_ functions, example:
+
+```haskell
+take5Odds :: Integral a => a -> [a]
+take5Odds x = take 5 . filter odd . enumFrom $ x
+
+Prelude> take5Odds 10
+[11,13,15,17,19]
+```
+
+This function is a composition of three functions. First we enumerate from x, 10 in this case, which will create a list, starting from 10.
+Then we pipe that data into the higher-order function `filter`, where the condition is to filter out all the odd numbers, and return that to a list.
+And in the end we take 5 elements of that list. See, easy to compose more than two functioons.
+
+## 7.9 Pointfree style
+
+This section I won't cover, because I really don't like pointfree style. It's a style of composing functions without specifying their arguments, and I feel
+that it makes the programs harder to reason about. That is just my opinion, so you are of course free to go read the section.
+
+

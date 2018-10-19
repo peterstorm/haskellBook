@@ -24,3 +24,12 @@ numbers x
   | x < 0 = -1
   | x == 0 = 0
   | x > 0 = 1
+
+test1 = negate $ sum [1..5]
+
+test2 = negate . sum $ [1..5]
+
+test3 = take 1 . take 5 $ reverse [1..10]
+
+take5Odds :: Integral a => a -> [a]
+take5Odds x = take 5 . filter odd . enumFrom $ x
