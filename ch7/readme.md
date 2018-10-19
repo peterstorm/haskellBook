@@ -428,3 +428,48 @@ codersRule _     Coder = LT
 codersRule e e'        = compare e e''
 ```
 
+## 7.7 Guards
+
+Guards are kind of similar to _if-then-else_ expressions, in the way that they rely on boolean evaluation to decide between two _or more_ results.
+
+### Writing guards blocks
+
+Here's an example:
+
+```haskell
+-- written with if-then-else
+myAbs :: Integer -> Integer
+myAbs x = if x < 0 then (-x) else x
+
+-- written with guard notation
+myAbs' :: Integer -> Integer
+myAbs' x
+  | x < 0     = (-x)
+  | otherwise = x
+```
+
+We use a `|` to begin a _guard case_, and the value before the `=` must always evaluate to `Bool`.
+`otherwise` is another word for `True`, and is used as a fallback case, because we must consider all the options, like pattern matching.
+
+Image we had a program for evaluating levels of some component in blood, we could write a function to tell us
+if everything is as it should be (simplfied).
+
+```haskell
+bloodLevels :: Integer -> String
+bloodLevels x 
+  | x > 145   = show x ++ " is too high!"
+  | x < 135   = show x ++ " is too low!"
+  | otherwise = show x ++ " is just right."
+```
+
+The most useful function in the world would be how to calculate how old your dog is in human years!
+
+```haskell
+dogYears :: Integer -> Integer
+dogYears x
+  | x <= 0     = 0
+  | x <= 1     = x * 15
+  | x <= 2     = x * 12
+  | x <= 3     = x * 8
+  | otherweise = x * 6
+```
