@@ -473,3 +473,17 @@ dogYears x
   | x <= 3     = x * 8
   | otherweise = x * 6
 ```
+
+We can also use _where_ clauses in guard blocks. Let's say we have a test with 100 questions and we want to calculate the grade from
+the number of correct answers:
+
+```haskell
+averageGrade :: (Fractional a, Ord a) => a -> Char
+averageGrade x
+  | y >= 0.9  = 'A'
+  | y >= 0.8  = 'B'
+  | y >= 0.7  = 'C'
+  | y >= 0.59 = 'D'
+  | y < 0.59  = 'F'
+  where y = x / 100
+```
