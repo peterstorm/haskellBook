@@ -179,7 +179,7 @@ We wrap it in parentheses to be able to apply arguments to the function, like `(
 
 ## 7.4 Pattern matching
 
-Pattern matching is _awesome_! 
+Pattern matching is _awesome_!
 Pattern matching matches against values or data constructors, _not_ types. Matching a pattern may fail, proceeding to the next available pattern to match or succeed. When a match succeeds, the variables exposed in the pattern are bound.
 Pattern matching proceedes from let to right and from outside to inside.
 We can pattern match on numbers, in the following example, if the _Integer_ argument to the function equals _2_, this will return `True`, otherwise `False`.
@@ -251,13 +251,13 @@ third3 (_, _, x) = x
     k2 = k ("three", (1 + 2))
     k3 = k (3, True)
     ```
-    a) What kind of type does `k` have?  
+    a) What kind of type does `k` have?
     The type of `k` is `k :: (a, b) -> a`
 
-    b) What is the type of `k2`? Is it the same as `k1` or `k3`?  
+    b) What is the type of `k2`? Is it the same as `k1` or `k3`?
     The type of `k2` is `k2 :: String`, and not the same as the other two
 
-    c) Of `k1`, `k2` and `k3`, which will return the result of 3?  
+    c) Of `k1`, `k2` and `k3`, which will return the result of 3?
     `k1` and `k3` will return 3.
 
 2.
@@ -287,7 +287,7 @@ We can rewrite this expression using a _case expression_, matching on the data c
 
 ```haskell
 funcZ :: (Eq a, Num a) => a -> String
-funcZ x = 
+funcZ x =
   case x + 1 == 1 of
     True -> "AWESOME"
     False -> "wut"
@@ -374,4 +374,58 @@ We need to rewrite a couple of _if then else_ expresssions.
 
 _Higher-order functions_ are functions that take other functions as it's argument. Very important in functional programming, as it lets combine functions efficiently.
 
+`flip` is a higher-order function (HOF) that flips the arguments to a two argument function. An simple example could be.
+
+```haskell
+flip :: (a -> b -> c) - b -> a -> c)
+flip f x y = f y x
+
+-- (-) works as you would expect
+Prelude> (-) 10 9
+1
+
+-- But if we supply flip with the (-) function, thereby flipping the arguments, we get
+Prelude> flip (-) 10 9
+-1
+
+-- So we flipped the arguments, and thereby instead of 10-9 we got 9-10!
+```
+
+Let's write an example where we also use data structures.
+
+```haskell
+module Coders where
+
+data Employee = Coder
+              | Manager
+              | Veep
+              | CEO
+              deriving (Show, Eq, Ord)
+
+-- lets build a function that should really not be used on it's own, beacuse I can say that a Coder is a boss of a Veep for example, but we need it.
+reportBoss :: Employee -> Employee -> IO ()
+reportBoss e e' = putStrLn $ show e ++ " is the boss of " ++ show e'
+
+-- now lets build the function that needs the before created function.
+employeeRank :: Employee -> Employee -> IO ()
+employeeRank e e' = case compare e e' of
+                      GT -> reportBoss e e'
+                      EQ -> putStrLn "These employees have the same rank"
+                      LT -> (flip reportBoss) e e'
+
+-- now the coders are obviously the backbone of a company and they have access to the code!
+changedEmployeeRank :: (Employee -> Employee -> Ordering) -> Employee -> Employee -> IO ()
+changedEmployeeRank f e e' = case f e e' of
+                               GT -> reportBoss e e'
+                               EQ -> putStrLn "These employees have the same rank"
+                               LT -> (flip reportBoss) e e'
+
+-- and now that we have a changedEmployeeRank that accepts another function as it's argument, we have a HOF, and we can exploit it!
+codersRule :: Employee -> Employee -> Ordering
+codersRule Coder Coder = EQ
+codersRule Coder _     = GT
+codersRule _     Coder = LT
+codersRule e e'        = compare e ecodersRule _     Coder = LT
+codersRule e e'        = compare e e''
+```
 
