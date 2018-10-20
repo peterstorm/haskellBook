@@ -605,4 +605,47 @@ And in the end we take 5 elements of that list. See, easy to compose more than t
 This section I won't cover, because I really don't like pointfree style. It's a style of composing functions without specifying their arguments, and I feel
 that it makes the programs harder to reason about. That is just my opinion, so you are of course free to go read the section.
 
+## 7.10 Demonstrating composition
 
+The two functions `putStr` and `print` were mentioned earlier. They seem similar on the surface, but behave differently because
+of the underlying types.
+
+```haskell
+putStr :: String -> IO ()
+putStrLn :: String -> IO ()
+print :: Show a => a -> IO ()
+```
+
+They both return a result of `IO ()` for reasons I think we discussed earlier in the chapter, but they take different
+arguments. One takes a `String` and the other has a constrained polymorphic parameter, `Show a => a`.
+You may also recall a function from earlier called `show`.
+
+```haskell
+show :: Show a => a -> String
+```
+
+So maybe you have already figured it out, but fortunately it was understood that combining `putStrLn` and `show` would be
+a common pattern, so the function named `print` is a composition the former two functions.
+
+```haskell
+print :: Show a => a -> IO ()
+print a = putStrLn (show a)
+-- we can express this using function compusition as well
+print :: Show a => a -> IO ()
+print a = (putStrLn . show) a
+```
+
+As you might have noticed here, `show` takes an argument of `Show a => a` and returns a `String`. What kind of argument does `putStrnLn` expect? A `String`!
+
+## 7.11 Chapter Exercises
+
+### Multiple choice
+
+1.
+    A polymorphic function...  
+    d) may resolve to values of different types, depending on inputs
+
+2.
+    Two functions named `f` and `g` have types `Char -> String` and `String -> [String]` respectively. The composed function
+    `g . f` has the type?  
+    b) `Char -> [String]`
