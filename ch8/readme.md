@@ -16,6 +16,6 @@ In this chapter we will
 ## 8.2 Factorial!
 
 One of the classic introductory functions to recursion is factorial. In arithmetic you might have seen expressions like
-_4!_. The _bang_ you're seeing next to the number 4 is the notation for the factorial function.  
+_4!_. The _bang_ you're seeing next to the number 4 is the notation for the factorial function.
 
 A silly
