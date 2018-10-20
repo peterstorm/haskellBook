@@ -77,3 +77,7 @@ productUnpackOnlyB (Product _ y) = y
 productUnpack :: Product a b -> (a, b)
 productUnpack (Product x y) = (x, y)
 
+data SumOfThree a b c = FirstPossible a
+                      | SecondPossible b
+                      | ThirdPossible c
+                      deriving (Eq, Show)
