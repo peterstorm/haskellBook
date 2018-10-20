@@ -845,6 +845,20 @@ As you might have noticed here, `show` takes an argument of `Show a => a` and re
 
     Pattern matching is about your _data_!
 
+5.
+    _Bottom_ is a non-value used to denote that a program cannot return a value or a result.
+
+6.
+    _Higher-order functions_ are functions that themselves takes functions as arguments.
+
+7.
+    _Composition_ is the application of a function to the result of having applied another function. The composition
+    operator `(.)` is a higher-order function that takes the two functions it is composes as arguments and returns a
+    function of the composition.
+
+8.
+    _Pointfree_ is something I don't want to use.
+
 
 
 
