@@ -62,3 +62,18 @@ foldBool' x y bool
 
 g :: (a -> b) -> (a, c) -> (b, c)
 g f (x, y) = (f x, y)
+
+data Product a b =
+  Product a b
+  deriving (Eq, Show)
+
+
+oroductUnpackOnlyA :: Product a b -> a
+productUnpackOnlyA (Product x _) = x
+
+productUnpackOnlyB :: Product a b -> b
+productUnpackOnlyB (Product _ y) = y
+
+productUnpack :: Product a b -> (a, b)
+productUnpack (Product x y) = (x, y)
+

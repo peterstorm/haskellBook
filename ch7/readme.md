@@ -772,3 +772,83 @@ As you might have noticed here, `show` takes an argument of `Show a => a` and re
       print (id 4)
       print ((roundTrip' 4) :: Int)
     ```
+
+## 7.12 Chapter Definitions
+
+1.
+    _Binding_ or _bound_ is a common word used to indicate a connection, linkage or association between two objects.
+    In Haskell we talk about what a value a variable has, e.g., a parameter variable is _bound_ to an argument value,
+    meaning the value is passed into the parameter as an input.
+
+2.
+    An _anonymous function_ is a function which is not bound to an identifier and is instead passed as an argument
+    to a higher-order function or used to create other function.
+
+3.
+    _Currying_ is the process of transforming a function that takes multiple arguments into a series of functions
+    which each take one argument and return a function as a result.
+
+4.
+    _Pattern matching_ is a syntactic way of deconstructing product and sum types to get their inhabitants.
+    With products, pattern matching give you the means for destructuring and exposing the contents of products, binding
+    one or more values contained therin to names. With sums, pattern matching lets you descriminate which inhabitant of a sum
+    you you mean to handle in that match.  
+
+    ```haskell
+    data Identity a = Identity a
+      deriving (Eq, Show)
+
+    -- Identity is a unary data constructor. Not a product, only contains one value.
+    -- When you pattern match on `Identity` you can unpack and expose the `a`.  
+
+    unpackIdentity :: Identity a -> a
+    unpackIdentity (Identity x) = x
+    ```  
+
+    With a product we can choose to use, none, one or both of the values in the product type.  
+
+    ```haskell
+    data Produt a b =
+      Product a b
+      deriving (Eq, Show)
+
+    productUnpackOnlyA :: Product a b -> a
+    productUnpackOnlyA (Product x _) = x
+
+    productUnpackOnlyB :: Product a b -> b
+    productUnpackOnlyB (Product _ y) = y
+
+    productUnpack :: Product a b -> (a, b)
+    productUnpack (Product x y) = (x, y)
+    ```
+
+    With a sum type we can discriminate by the inhabitants of the sum and choose to do different things based on which
+    constructor in the sum they were.  
+
+    ```haskell
+    data SumOfThree a b c = FirstPossible a
+                          | SecondPossible b
+                          | ThirdPossible c
+                          deriving (Eq, Show)
+
+    sumToInt :: SumOfThree a b c -> Integer
+    sumToInt (FirstPossible _)  = 0
+    sumToInt (SecondPossible _) = 1
+    sumToInt (ThirdPossible _)  = 2
+
+    -- we can selectively ignore inhabitants of the sum
+
+    sumToInt' :: SumOfThree a b c -> Integer
+    sumToInt' (FirstPossible _) = 0
+    sumToInt' _                 = 1
+    ```
+
+    Pattern matching is about your _data_!
+
+
+
+
+
+
+
+
