@@ -759,6 +759,8 @@ As you might have noticed here, `show` takes an argument of `Show a => a` and re
     Your task is now to change the type of `roundTrip` in your file to `(Show a, Read b) => a -> b`, and make the expression
     `print (roundTrip 4)` work.  
     ```haskell
+    module Arith4 where
+
     roundTrip :: (Show a, Read a) => a -> a
     roundTrip  = read . show
 
