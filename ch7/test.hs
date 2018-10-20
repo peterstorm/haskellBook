@@ -59,3 +59,6 @@ foldBool' :: a -> a -> Bool -> a
 foldBool' x y bool
   | bool == False = x
   | otherwise     = y
+
+g :: (a -> b) -> (a, c) -> (b, c)
+g f (x, y) = (f x, y)

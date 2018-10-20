@@ -691,8 +691,8 @@ As you might have noticed here, `show` takes an argument of `Show a => a` and re
     ```haskell
     hunsDigit :: Integral a => a -> a
     hunsDigit x = d
-    where (xLast, _) = divMod x 100
-          (_, d)     = divMod xLast 10
+      where (xLast, _) = divMod x 100
+            (_, d)     = divMod xLast 10
     ```
 
 2.
@@ -713,4 +713,60 @@ As you might have noticed here, `show` takes an argument of `Show a => a` and re
     foldBool' x y bool
       | bool == False = x
       | otherwise     = y
+    ```
+
+3.
+    Fill in the definition. Note that the first argument to our function is _also_ a function which can be applied to values.
+    Your second argument is a tuple, which can be used for pattern matching:  
+    ```haskell
+    g :: (a -> b) -> (a, c) -> (b, c)
+    g = undefined
+
+    -- implementation
+    g :: (a -> b) -> (a, c) -> (b, c)
+    g f (x, y) = (f x, y)
+    ```
+
+4.
+    For this next exercise, we will be writing _pointfree_ code, ugh.
+    Typeclasses are dispatched by type. `Read` is a typeclass like `Show`, but it is the dual or "opposite" of `Show`. In
+    general, the `Read` typeclass isn't something you should plan to use a lot, but this exercise is structired to teach you
+    something about the interaction between typeclasses and types.
+    The function `read` in the `Read` typeclass has the type:  
+    ```haskell
+    read :: Read a => String -> a
+    ```
+
+5.
+    We have rewrite the function to pointfree, like so:  
+    ```haskell
+    roundTrip :: (Show a, Read a) => a -> a
+    roundTrip a  = read (show a)
+
+    -- pointfree
+    roundTrip :: (Show a, Read a) => a -> a
+    roundTrip = read . show
+    ```
+
+6.
+    When we apply `show` to a value such as `(1 :: Int)` the `a` that implements Show is Int, so GHC will use the Int instance
+    of the Show typeclass to "stringify" our Int of 1.
+    However `read` expects a `String` argument in order to return an `a`. The `String` argument that is the first argument
+    to `read` tells the function nothing about what type the "de-stringified" result should be. In the type signature `roundTrip`
+    currently has, it knows because the type variables are the same, so the type that is the input to `show` has to be the
+    same type as the output of `read`.  
+    
+    Your task is now to change the type of `roundTrip` in your file to `(Show a, Read b) => a -> b`, and make the expression
+    `print (roundTrip 4)` work.  
+    ```haskell
+    roundTrip :: (Show a, Read a) => a -> a
+    roundTrip  = read . show
+
+    roundTrip' :: (Show a, Read b) => a -> b
+    roundTrip' = read . show
+
+    main = do
+      print (roundTrip 4)
+      print (id 4)
+      print ((roundTrip' 4) :: Int)
     ```
