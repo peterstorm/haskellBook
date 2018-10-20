@@ -684,3 +684,33 @@ As you might have noticed here, `show` takes an argument of `Show a => a` and re
       where (xLast, _) = divMod x 10
             (_, d)     = divMod xLast 10
     ```
+    b) Does the `divMod` version have the same type as the original version?  
+    A: Yes, it does.  
+
+    c) Next, let's change it so that we're getting the hundreds digit instead.  
+    ```haskell
+    hunsDigit :: Integral a => a -> a
+    hunsDigit x = d
+    where (xLast, _) = divMod x 100
+          (_, d)     = divMod xLast 10
+    ```
+
+2.
+    Implement the function of the type `a -> a -> Bool -> a` once each using a case expression and once with a guard.  
+    ```haskell
+    foldBool :: a -> a -> Bool -> a
+    foldBool = error "Error: need to implement foldBool!"
+    ```  
+    Implementation:  
+    ```haskell
+    -- case expression
+    foldBool :: a -> a -> Bool -> a
+    foldBool x y bool = case bool of
+      True  -> y
+      False -> x
+    -- guards
+    foldBool' :: a -> a -> Bool -> a
+    foldBool' x y bool
+      | bool == False = x
+      | otherwise     = y
+    ```

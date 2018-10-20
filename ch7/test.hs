@@ -43,3 +43,19 @@ tensDigit' :: Integral a => a -> a
 tensDigit' x = d
   where (xLast, _) = divMod x 10
         (_, d)     = divMod xLast 10
+
+hunsDigit :: Integral a => a -> a
+hunsDigit x = d
+  where (xLast, _) = divMod x 100
+        (_, d)     = divMod xLast 10
+
+
+foldBool :: a -> a -> Bool -> a
+foldBool x y bool = case bool of
+  True  -> y
+  False -> x
+
+foldBool' :: a -> a -> Bool -> a
+foldBool' x y bool
+  | bool == False = x
+  | otherwise     = y
