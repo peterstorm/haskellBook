@@ -666,4 +666,21 @@ As you might have noticed here, `show` takes an argument of `Show a => a` and re
     ```
     a) `f True :: Bool`
 
+### Let's write code
 
+1.
+    The following function returns the tens digit of an integral argument.
+    ```haskell
+    tensDigit :: Integral a => a -> a
+    tensDigit x = d
+      where xLast = x `div` 10
+            d     = xLast `mod` 10
+    ```
+    
+    a) First, rewrite it using `divMod`.
+    ```haskell
+    tensDigit :: Integral a => a -> a
+    tensDigit x = d
+      where (xLast, _) = divMod x 10
+            (_, d)     = divMod xLast 10
+    ```

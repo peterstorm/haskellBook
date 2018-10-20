@@ -33,3 +33,13 @@ test3 = take 1 . take 5 $ reverse [1..10]
 
 take5Odds :: Integral a => a -> [a]
 take5Odds x = take 5 . filter odd . enumFrom $ x
+
+tensDigit :: Integral a => a -> a
+tensDigit x = d
+  where xLast = x `div` 10
+        d     = xLast `mod` 10
+
+tensDigit' :: Integral a => a -> a
+tensDigit' x = d
+  where (xLast, _) = divMod x 10
+        (_, d)     = divMod xLast 10
