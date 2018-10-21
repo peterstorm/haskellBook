@@ -4,7 +4,64 @@ factorial :: Integer -> Integer
 factorial 0 = 1
 factorial n = n * factorial (n - 1)
 
+incTimes :: (Eq a, Num a) => a -> a -> a
+incTimes 0 n = n
+incTimes times n = 1 + (incTimes (times - 1) n)
+
+applyTimes :: (Eq a, Num a) => a -> (b -> b) -> b -> b
+applyTimes 0 f b = b
+applyTimes n f b = f . applyTimes (n - 1) f $ b
+
+incTimes' :: (Eq a, Num a) => a -> a -> a
+incTimes' times n = applyTimes times (+1) n
+
+fibonacci :: Integral a => a -> a
+fibonacci 0 = 0
+fibonacci 1 = 1
+fibonacci x = fibonacci (x - 1) + fibonacci (x - 2)
+
+dividedBy :: Integral a => a -> a -> (a, a)
+dividedBy num denom = go num denom 0
+  where go num denom count
+          | num < denom = (count, num)
+          | otherwise   = go (num - denom) denom (count + 1)
+
+recSum :: (Eq a, Num a) => a -> a
+recSum 0 = 0
+recSum x = recSum (x - 1) + x
+
+recMult :: Integral a => a -> a -> a
+recMult 0 _ = 0
+recMult _ 0 = 0
+recMult x y = go x y 1 0
+  where go x y neg acc
+          | x < 0     = if y < 0 then go (negate x) (negate y) 1 0 
+                                 else go (negate x) y (-1) 0
+          | x == 1    = if neg == (-1) then (y + acc) * (-1) 
+                                       else (y + acc)
+          | y == 1    = x + acc
+          | otherwise = if neg == (-1) then go (x - 1) y (-1) (acc + y)
+                                       else go (x - 1) y 1 (acc + y)
+
 main :: IO ()
-main = do
-  putStrLn "This is the result of factorial 4:"
-  print $ factorial 4
+main = do 
+  let fac = factorial 4
+  putStrLn $ "The result of factorial 4 is: " ++ show fac
+  
+  let inc = incTimes 4 5
+  putStrLn $ "The result of incTimes 4 5 is: " ++ show inc
+  
+  let inc' = incTimes' 10 10
+  putStrLn $ "The result of incTimes' 10 10 is: " ++ show inc'
+  
+  let apply' = applyTimes 5 (+1) 5
+  putStrLn $ "The result of applyTimes 5 (+1) 5 is: " ++ show apply'
+
+  let fibo = fibonacci 6
+  putStrLn $ "The 6th number in the Fibonacci sequence is: " ++ show fibo
+
+  let divided = dividedBy 120 26
+  putStrLn $ "The (quotient, remainder) of dividedBy 120 26 is: " ++ show divided
+
+  let summed = recSum 5
+  putStrLn $ "The result of recSum 5 is: " ++ show summed
