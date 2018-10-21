@@ -69,6 +69,21 @@ recMult''' x y = go (abs x) 0
   go 0 acc = acc
   go n acc = go (n - 1) (acc + y')
 
+data DividedResult = Result Integer
+                   | DividedByZero
+                   deriving Show
+
+fixedDividedBy :: Integral a => a -> a -> DividedResult
+fixedDividedBy _ 0 = DividedByZero
+fixedDividedBy x y = go x y 1 0
+  where go num denom neg acc
+          | num < 0, denom < 0       = go (abs num) (abs denom) 1 0
+          | num < 0                  = go (abs num) denom (-1) 0
+          | denom < 0                = go num (abs denom) (-1) 0
+          | num < denom, neg == (-1) = Result (-acc)
+          | num < denom              = Result acc
+          | otherwise                = go (num - denom) denom neg (acc + 1)
+
 main :: IO ()
 main = do 
   let fac = factorial 4
@@ -91,3 +106,9 @@ main = do
 
   let summed = recSum 5
   putStrLn $ "The result of recSum 5 is: " ++ show summed
+
+  let multed = recMult 10 (-10)
+  putStrLn $ "The result of recMult 10 -10 is: " ++ show multed
+
+  let fixedDiv = fixedDividedBy 10 (-2)
+  putStrLn $ "The rusult of fixedDividedBy 10 (-2) is: " ++ show fixedDiv

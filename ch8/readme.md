@@ -350,3 +350,26 @@ recursive function, everytime the _otherwise_ case is reached.
       | x < 0 = - recMult (-x) y
       | otherwise = y + recMult (x - 1) y
     ```
+
+### Fixing dividedBy
+
+Our `dividedBy` function wasn't quite ideal, as it was a partial function and did not return a result (bottom)
+when given a denominator with 0 or less. We can fix that by building a datatype that handles the case of 0, and
+change the function to work with negative values too.
+
+```haskell
+data DividedResult = Result Integer
+                   | DividedByZero
+                   deriving Show
+
+fixedDividedBy :: Integral a => a -> a -> DividedResult
+fixedDividedBy _ 0 = DividedByZero
+fixedDividedBy x y = go x y 1 0
+  where go num denom neg acc
+          | num < 0, denom < 0       = go (abs num) (abs denom) 1 0
+          | num < 0                  = go (abs num) denom (-1) 0
+          | denom < 0                = go num (abs denom) (-1) 0
+          | num < denom, neg == (-1) = Result (-acc)
+          | num < denom              = Result acc
+          | otherwise                = go (num - denom) denom neg (acc + 1)
+```
