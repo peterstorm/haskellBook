@@ -341,3 +341,12 @@ recursive function, everytime the _otherwise_ case is reached.
               | otherwise = if neg == (-1) then go (x - 1) y (-1) (acc + y)
                                            else go (x - 1) y 1 (acc + y)
     ```
+
+    This implementation is terrible, but as a first try I'm happy! Later I found out you could just have done this:
+    ```haskell
+    recMult'' :: Integral a => a -> a -> a
+    recMult'' 0 _ = 0
+    recMult'' x y
+      | x < 0 = - recMult (-x) y
+      | otherwise = y + recMult (x - 1) y
+    ```

@@ -43,6 +43,32 @@ recMult x y = go x y 1 0
           | otherwise = if neg == (-1) then go (x - 1) y (-1) (acc + y)
                                        else go (x - 1) y 1 (acc + y)
 
+recMult' :: Integral a => a -> a -> a
+recMult' 0 _ = 0
+recMult' _ 0 = 0
+recMult' x y = go x y 1 0
+  where
+    go x y _ _
+        | x < 0, y < 0 = go (negate x) (negate y) 1 0
+        | x < 0        = go (negate x) y (-1) 0
+    go 1 y (-1) acc = negate (y + acc)
+    go 1 y _ acc    = y + acc
+    go x 1 _ acc    = x + acc
+    go x y neg acc  = go (x - 1) y neg (acc + y)
+
+recMult'' :: Integral a => a -> a -> a
+recMult'' 0 _ = 0
+recMult'' x y
+  | x < 0 = - recMult (-x) y
+  | otherwise = y + recMult (x - 1) y
+
+recMult''' :: Integral a => a -> a -> a
+recMult''' x y = go (abs x) 0
+ where
+  y' = if signum x /= signum y then -abs y else abs y
+  go 0 acc = acc
+  go n acc = go (n - 1) (acc + y')
+
 main :: IO ()
 main = do 
   let fac = factorial 4
