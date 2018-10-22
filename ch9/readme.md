@@ -63,4 +63,16 @@ myHaed (x : _) = x
 ### Using Maybe
 
 A better way to handle the situation of something that might not be there, is to use the datatype called _Maybe_.
-It's defined as `data Maybe a = Nothing | Just a`.
+It's defined as `data Maybe a = Nothing | Just a`. Maybe is defined as returning `Nothing` if there is nothing to return and
+`Just a` if there is. We can use it in both our functions.
+
+```haskell
+safeHead :: [a] -> Maybe a
+safeHead []      = Nothing
+safeHead (x : _) = Just x
+
+safeTail :: [a] -> Maybe [a]
+safeTail []       = Nothing
+safeTail (x : []) = Nothing
+safeTail (x : xs) = Just xs
+```
