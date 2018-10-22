@@ -364,7 +364,7 @@ data DividedResult = Result Integer
 
 fixedDividedBy :: Integral a => a -> a -> DividedResult
 fixedDividedBy _ 0 = DividedByZero
-fixedDividedBy x y = go x y 1 0
+fixedDividedBy nom denom = go num denom 1 0
   where go num denom neg acc
           | num < 0, denom < 0       = go (abs num) (abs denom) 1 0
           | num < 0                  = go (abs num) denom (-1) 0

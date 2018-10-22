@@ -35,9 +35,9 @@ recMult 0 _ = 0
 recMult _ 0 = 0
 recMult x y = go x y 1 0
   where go x y neg acc
-          | x < 0     = if y < 0 then go (negate x) (negate y) 1 0 
+          | x < 0     = if y < 0 then go (negate x) (negate y) 1 0
                                  else go (negate x) y (-1) 0
-          | x == 1    = if neg == (-1) then (y + acc) * (-1) 
+          | x == 1    = if neg == (-1) then (y + acc) * (-1)
                                        else (y + acc)
           | y == 1    = x + acc
           | otherwise = if neg == (-1) then go (x - 1) y (-1) (acc + y)
@@ -75,7 +75,7 @@ data DividedResult = Result Integer
 
 fixedDividedBy :: Integral a => a -> a -> DividedResult
 fixedDividedBy _ 0 = DividedByZero
-fixedDividedBy x y = go x y 1 0
+fixedDividedBy num denom = go num denom 1 0
   where go num denom neg acc
           | num < 0, denom < 0       = go (abs num) (abs denom) 1 0
           | num < 0                  = go (abs num) denom (-1) 0
@@ -85,16 +85,16 @@ fixedDividedBy x y = go x y 1 0
           | otherwise                = go (num - denom) denom neg (acc + 1)
 
 main :: IO ()
-main = do 
+main = do
   let fac = factorial 4
   putStrLn $ "The result of factorial 4 is: " ++ show fac
-  
+
   let inc = incTimes 4 5
   putStrLn $ "The result of incTimes 4 5 is: " ++ show inc
-  
+
   let inc' = incTimes' 10 10
   putStrLn $ "The result of incTimes' 10 10 is: " ++ show inc'
-  
+
   let apply' = applyTimes 5 (+1) 5
   putStrLn $ "The result of applyTimes 5 (+1) 5 is: " ++ show apply'
 
