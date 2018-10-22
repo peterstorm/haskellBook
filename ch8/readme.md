@@ -373,3 +373,50 @@ fixedDividedBy nom denom = go num denom 1 0
           | num < denom              = Result acc
           | otherwise                = go (num - denom) denom neg (acc + 1)
 ```
+
+### McCarthy 91 function
+
+This is a function that is described as (see the book). It is implemented like so:
+
+```haskell
+mc91 x
+  | x > 100     = x - 10
+  | otherwise = mc91 (mc91 (x + 11))
+```
+
+### Numbers into words
+
+Next we will implement a litle program that turns numbers into string of the numbers in words, like so:
+
+```haskell
+module WordNumber where
+
+import Data.List (intersperse)
+
+digitToWord :: Int -> String
+digitToWord n = 
+  case n of
+    0 -> "zero"
+    1 -> "one"
+    2 -> "two"
+    3 -> "three"
+    4 -> "four"
+    5 -> "five"
+    6 -> "six"
+    7 -> "seven"
+    8 -> "eight"
+    9 -> "nine"
+    _ -> "zero"
+
+digits :: Int -> [Int]
+digits n = go n []
+  where go n list
+          | n < 10    = n : list
+          | otherwise = go (div n 10) (mod n 10 : list)
+
+numberToWords :: Int -> [String]
+numberToWords n = map digitToWord $ digits n
+
+wordNumber :: Int -> String
+wordNumber n = concat . intersperse "-" $ numberToWord n
+```

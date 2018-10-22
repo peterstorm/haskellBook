@@ -84,6 +84,10 @@ fixedDividedBy num denom = go num denom 1 0
           | num < denom              = Result acc
           | otherwise                = go (num - denom) denom neg (acc + 1)
 
+mc91 x
+  | x > 100     = x - 10
+  | otherwise = mc91 (mc91 (x + 11))
+
 main :: IO ()
 main = do
   let fac = factorial 4
@@ -112,3 +116,6 @@ main = do
 
   let fixedDiv = fixedDividedBy 10 (-2)
   putStrLn $ "The rusult of fixedDividedBy 10 (-2) is: " ++ show fixedDiv
+
+  let macMac = map mc91 [95..110]
+  putStrLn $ "The result of map mc91 [95..100] is: " ++ show macMac
