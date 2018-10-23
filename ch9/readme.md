@@ -95,4 +95,101 @@ The spine is the connective structure that holds the cons cells in place.o
 
 ## 9.5 Using ranges to construct lists
 
+As seen above, there a several ways to construct lists, but we did leave out one of them which is with _ranges_. Here are some examples with range syntax.
+
+```haskell
+Prelude> [1..10]
+[1,2,3,4,5,6,7,8,9,10]
+Prelude> enumFromTo 1 10
+[1,2,3,4,5,6,7,8,9,10]
+
+Prelude> [1,2..10]
+[1,2,3,4,5,6,7,8,9,10]
+Prelude> enumFromThenTo 1 2 10
+[1,2,3,4,5,6,7,8,9,10]
+
+Prelude> [1,3..10]
+[1,3,5,7,9]
+Prelude> enumFromThenTo 1 3 10
+[1,3,5,7,9]
+
+Prelude> [2,4..10]
+[2,4,6,8,10]
+Prelude> enumFromThenTo 2 4 10
+[2,4,6,8,10]
+
+Prelude> ['t'..'z']
+"tuvwxyz"
+Prelude> enumFromTo 't' 'z'
+"tuvwxyz"
+```
+
+The types of the functions underlying the range syntax are:
+
+```haskell
+enumFrom :: Enum a => a -> [a]
+
+enumFromThen :: Enum a => a -> a -> [a]
+
+enumFromTo :: Enum a => a -> a -> [a]
+
+enumFromThenTo :: Enum a => a -> a -> a -> [a]
+```
+
+All of these require that the typed being "ranged" have an instance of the _Enum_ typeclass.
+
+### Exercise: EnumFromTo
+
+Some things you'll want to know about the _Enum_ typeclass:
+
+```haskell
+Prelude> :info Enum
+class Enum a where
+succ :: a -> a
+pred :: a -> a
+toEnum :: Int -> a
+fromEnum :: a -> Int
+enumFrom :: a -> [a]
+enumFromThen :: a -> a -> [a]
+enumFromTo :: a -> a -> [a]
+enumFromThenTo :: a -> a -> a -> [a]
+Prelude> succ 0
+1
+Prelude> succ 1
+2
+Prelude> succ 'a'
+'b'
+```
+
+Write your own `enumFromTo` definitions for the types provided, but do not use range syntax to do so.
+
+```haskell
+eftBool :: Bool -> Bool -> [Bool]
+eftBool x y
+  | x > y     = []
+  | x == y    = [x]
+  | otherwise = [False, True]
+
+eftOrd :: Ordering -> Ordering -> [Ordering]
+eftOrd x y = go x y []
+  where go x y acc
+          | x > y  = []
+          | x == y =  reverse (x : acc)
+          | otherwise = go (succ x) y (x : acc)
+
+eftInt :: Int -> Int -> [Int]
+eftInt x y = go x y []
+  where go x y acc
+          | x > y = []
+          | x == y = reverse (x : acc)
+          | otherwise = go (succ x) y (x : acc)
+
+eftChar :: Char -> Char -> [Char]
+eftChar x y = go x y []
+  where go x y acc
+          | x > y = []
+          | x == y = reverse (x : acc)
+          | otherwise = go (succ x) y (x : acc)
+```
+
 
