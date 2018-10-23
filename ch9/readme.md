@@ -76,3 +76,23 @@ safeTail []       = Nothing
 safeTail (x : []) = Nothing
 safeTail (x : xs) = Just xs
 ```
+
+## 9.4 List's syntactic sugar
+
+You can write a list in many ways, because of syntactic sugar.
+
+```haskell
+Prelude> [1, 2, 3, 4]
+[1, 2, 3, 4]
+Prelude> 1 : 2 : 3 : 4 : []
+[1, 2, 3, 4]
+Prelude> (1 : 2 : 3 : []) ++ (4 : [])
+[1, 2, 3, 4]
+```
+
+When we talk about lists, we often talk about _cons cells_ and _spines_. Where cons cells are the data constructor that prepends more values recursively to "more lists".
+The spine is the connective structure that holds the cons cells in place.o
+
+## 9.5 Using ranges to construct lists
+
+
