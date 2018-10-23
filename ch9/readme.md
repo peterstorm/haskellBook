@@ -192,4 +192,58 @@ eftChar x y = go x y []
           | otherwise = go (succ x) y (x : acc)
 ```
 
+## 9.6 Extracting portions of lists
 
+In this section we will look at some useful functions for extracting portions of a list, like:
+
+```haskell
+take :: Int -> [a] -> [a]
+drop :: Int -> [a] -> [a]
+splitAt :: Int -> [a] -> ([a], [a])
+```
+
+Here's how the take function works:
+
+```haskell
+Prelude> take 7 ['a'..'z']
+"abcdefg"
+Prelude> take 3 [1..10]
+[1,2,3]
+Prelude> take 3 []
+[]
+```
+
+We can also use `take` with the range syntax from before. And remember we can create infinite lists in Haskell, and then with
+`take` we just take a portion of that infinite list - lazyness! (I think)
+
+```
+Prelude> take 10 (enumFrom 10)
+[10,11,12,13,14,15,16,17,18,19]
+```
+
+The `drop` function is similar to `take`, though opposite, it drops the specified number of elements off the beginning of the
+list.
+
+```haskell
+Prelude> drop 5 [1..10]
+[6,7,8,9,10]
+Prelude> drop 8 ['a'..'z']
+"ijklmnopqrstuvwxyz"
+Prelude> drop 4 []
+[]
+Prelude> drop 2 (enumFromTo 10 20)
+[12,13,14,15,16,17,18,19,20]
+```
+
+The `splitAt` function cuts a list into two parts at the element specified by the `Int` and makes a tuple of two lists:
+
+```haskell
+Prelude> splitAt 5 [1..10]
+([1,2,3,4,5],[6,7,8,9,10])
+Prelude> splitAt 10 ['a'..'z']
+("abcdefghij","klmnopqrstuvwxyz")
+Prelude> splitAt 5 []
+([],[])
+Prelude> splitAt 3 (enumFromTo 5 15)
+([5,6,7],[8,9,10,11,12,13,14,15])
+```
