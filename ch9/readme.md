@@ -366,3 +366,168 @@ Prelude> dropWhile (=='a') "abracadabra"
         "Are they equal? "
         ++ show (myLines sentenses == shouldEqual)
     ```
+
+## 9.7 List comprehensions
+
+List comprehensions are a way of generating a new list for a list or lists.
+They come directly fomr the concept of set comprehensions in mathematics, including similar syntax. There's a _generator_, an
+_output_ function and the _pipe_ that separates the input and the output function.
+
+The following will square all the items in a list:
+
+```haskell
+[ x^2 | x <- [1..10]]
+
+Prelude> [x^2 | x <- [1..10]]
+[1,4,9,16,25,36,49,64,81,100]
+```
+
+### Adding predicates
+
+You can add predicates to list comprehensions. Predicates have to evaluate to Bool. Only the list elements that meets the True
+case will be passed to the output function.
+Here we will only pass the even numbers to our output function:
+
+```haskell
+Prelude> [x^2 | x <- [1..10], rem x 2 == 0]
+[4,16,36,64,100]
+```
+
+You can also write list comprehensions that have multiple list generators. One thing to note is that the right-most generator
+will be exhausted first.
+
+```haskell
+Prelude> [ x^y | x <- [1..5], y <- [2,3]]
+[1,1,4,8,9,27,16,64,25,125]
+```
+
+When we examine the output, we see that the first value of the list containing _x_, has been applied to the power of 2, then the
+power of 3, then the next value of x is applied to the power of 2 and then 3, and so on.
+We can, of course, also put a condition on that, if we for example only want to return all the values of the output
+function are less than 200:
+
+```haskell
+Prelude> :{
+Prelude| [x ^ y |
+Prelude| x <- [1..10],
+Prelude| y <- [2, 3],
+Prelude| x ^ y < 200]
+Prelude| :}
+[1,1,4,8,9,27,16,64,25,125,36,49,64,81,100]
+```
+
+We can use multiple generators to turn two lit into a list of two-tuples, like so:
+
+```haskell
+Prelude> :{
+Prelude| [(x, y) |
+Prelude| x <- [1, 2, 3],
+Prelude| y <- [6, 7]]
+Prelude| :}
+[(1,6),(1,7),(2,6),(2,7),(3,6),(3,7)]
+
+Prelude> :{
+Prelude| [(x, y) |
+Prelude| x <- [1, 2, 3],
+Prelude| y <- ['a', 'b']]
+Prelude| :}
+[(1,'a'),(1,'b'),(2,'a'),
+(2,'b'),(3,'a'),(3,'b')]
+```
+
+You can also use list comprehensions in other list comprehensions:
+
+```haskell
+Prelude> let mySqr = [x^2 | x <- [1..10]]
+Prelude> :{
+Prelude| [(x, y) |
+Prelude| x <- mySqr,
+Prelude| y <- [1..3], x < 4]
+Prelude| :}
+[(1,1),(1,2),(1,3)]
+```
+
+### Exercises: Comprehend Thy Lists
+
+Take a look at the following functions, figure out what you think their output lists will be and then run them in the REPL.
+
+```haskell
+[x | x <- mySqr, rem x 2 == 0]
+
+[(x, y) | x <- mySqr,
+          y <- mySqr,
+          x < 50, y > 50]
+
+take 5 [ (x, y) | x <- mySqr,
+                  y <- mySqr,
+                  x < 50, y > 50 ]
+```
+
+### List comprehension with Strings
+
+It's worth remembering that strings are lists, so we can use list comprehension here as well.
+We're going to introduce a standard function called `elem` that tells you weather an element is in a list or not.
+It evaluates to a Bool value, so it's useful as a predicate in a list comprehension.
+
+```haskell
+Prelude> :t elem
+elem :: Eq a => a -> [a] -> Bool
+Prelude> elem 'a' "abracadabra"
+True
+Prelude> elem 'a' "Julie"
+False
+```
+
+If we wanted to find all the capital letters of a string, we could do the following:
+
+```haskell
+Prelude> :{
+Prelude| [x |
+Prelude| x <- "Three Letter Acronym",
+Prelude| elem x ['A'..'Z']]
+Prelude| :}
+"TLA"
+```
+
+We can turn that into a general function by making the list generator an argument to the function:
+
+```haskell
+Prelude> :{
+Prelude| let acro xs =
+Prelude| [x | x <- xs,
+Prelude| elem x ['A'..'Z']]
+Prelude| :}
+
+Prelude> acro "Self Contained Underwater Breathing Apparatus"
+"SCUBA"
+Prelude> acro "National Aeronautics and Space Administration"
+"NASA"
+```
+
+### Exercises: Square Cude
+
+Given the following:
+
+```haskell
+Prelude> let mySqr = [x^2 | x <- [1..5]]
+Prelude> let myCube = [y^3 | y <- [1..5]]
+```
+
+1.
+    First write an expression that will make tuples of the outputs of the `mySqr` and `myCube`.
+    ```haskell
+    [(x, y) | x <- mySqr, y <- myCube]
+    ```
+
+2.
+    Now alter the expression so that it only uses the x and y values that are less than 50.
+    ```haskell
+    [(x, y) | x <- mySqr, y <- myCube, x < 50, y < 50]
+
+3.
+    Now apply a function to the output of the previous list comprehension, that tells the number of tuples in the list.
+    ```haskell
+    length [(x, y) | x <- mySqr, y <- myCube, x < 50, y < 50]
+    ```
+
+

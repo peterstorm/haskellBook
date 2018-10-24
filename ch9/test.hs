@@ -37,6 +37,8 @@ eftChar x y = go x y []
           | otherwise = go (succ x) y (x : acc)
 
 myWords :: String -> [String]
+
+
 myWords x = go x []
   where go x acc
           | x == ""   = reverse acc
