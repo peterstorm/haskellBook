@@ -36,6 +36,12 @@ eftChar x y = go x y []
           | x == y = reverse (x : acc)
           | otherwise = go (succ x) y (x : acc)
 
+myWords :: String -> [String]
+myWords x = go x []
+  where go x acc
+          | x == ""   = reverse acc
+          | otherwise = go (dropWhile (==' ') $ (dropWhile (/=' ') x)) ((takeWhile (/=' ') x) : acc)
+
 
 main :: IO ()
 main = do
@@ -55,4 +61,7 @@ main = do
   putStrLn $ "The result of eftInt 10 12 is: " ++ show eI
   
   let eC = eftChar 'a' 'f'
-  putStrLn $ "The result of eftChar 'a' 'f' is: " ++ show eC
+  putStrLn $ "The result of eftChar 'a' 'f' is: " ++ show eC 
+
+  let mW = myWords "I love Johanna"
+  putStrLn $ "The result of myWords \"I love Johanna\" is: " ++ show mW

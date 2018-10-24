@@ -216,7 +216,7 @@ Prelude> take 3 []
 We can also use `take` with the range syntax from before. And remember we can create infinite lists in Haskell, and then with
 `take` we just take a portion of that infinite list - lazyness! (I think)
 
-```
+```haskell
 Prelude> take 10 (enumFrom 10)
 [10,11,12,13,14,15,16,17,18,19]
 ```
@@ -247,3 +247,122 @@ Prelude> splitAt 5 []
 Prelude> splitAt 3 (enumFromTo 5 15)
 ([5,6,7],[8,9,10,11,12,13,14,15])
 ```
+
+The higher-order functions `takeWhile` and `dropWhile` are a bit different, as you can see from the type signatures:
+
+```haskell
+takeWhile :: (a -> Bool) -> [a] -> [a]
+dropWhile :: (a -> Bool) -> [a] -> [a]
+```
+
+They take a function that returns a Bool, a _predicate_, and the functions will return elements of the list, while the
+predicate holds true.
+
+```haskell
+Prelude> takeWhile (<3) [1..10]
+[1,2]
+Prelude> takeWhile (>6) $ enumFromTo 1 10
+[]
+-- returns an empty list, beause the predicate fails on the first element of the list
+```
+
+`dropWhile` drops the first part of the list while the predicate is met.
+
+```haskell
+Prelude> dropWhile (<3) [1..10]
+[3,4,5,6,7,8,9,10]
+Prelude> dropWhile (<8) (enumFromTo 5 15)
+[8,9,10,11,12,13,14,15]
+Prelude> dropWhile (>6) [1..10]
+[1,2,3,4,5,6,7,8,9,10]
+Prelude> dropWhile (=='a') "abracadabra"
+"bracadabra"
+```
+
+### Exercises: Thy Fearful Symmetry
+
+1.
+    Using `takeWhile` and `dropWhile`, write a function that takes a string and returns a list of strings, using spaces to
+    separate the elements of the string into words.
+    ```
+
+    The higher-order functions `takeWhile` and `dropWhile` are a bit different, as you can see from the type signatures:
+
+    ```haskell
+    takeWhile :: (a -> Bool) -> [a] -> [a]
+    dropWhile :: (a -> Bool) -> [a] -> [a]
+    ```
+
+    They take a function that returns a Bool, a _predicate_, and the functions will return elements of the list, while the
+    predicate holds true.
+
+    ```haskell
+    Prelude> takeWhile (<3) [1..10]
+    [1,2]
+
+  Prelude> takeWhile (>6) $ enumFromTo 1 10
+  []
+  -- returns an empty list, beause the predicate fails on the first element of the list
+  ```
+
+  `dropWhile` drops the first part of the list while the predicate is met.
+
+  ```haskell
+  Prelude> dropWhile (<3) [1..10]
+  [3,4,5,6,7,8,9,10]
+  Prelude> dropWhile (<8) (enumFromTo 5 15)
+  [8,9,10,11,12,13,14,15]
+  Prelude> dropWhile (>6) [1..10]
+  [1,2,3,4,5,6,7,8,9,10]
+  Prelude> dropWhile (=='a') "abracadabra"
+  "bracadabra"
+  ```
+
+### Exercises: Thy Fearful Symmetry
+
+1.
+    Using `takeWhile` and `dropWhile`, write a function that takes a string and returns a list of strings, using spaces to
+    separate the elements of the string into words.
+    ```haskell
+    myWords :: String -> [String]
+    myWords x = go x []
+      where go x acc
+              | x == ""   = reverse acc
+              | otherwise = go (dropWhile (==' ') $ (dropWhile (/=' ') x)) ((takeWhile (/=' ') x) : acc)
+    ```
+
+2.
+    Next, write a function that takes a string and returns a list of strings, using newline separators to break up the 
+    string as in the following (your job is to fill in the undefined function):
+    ```haskell
+    module PoemLines where
+
+    firstSen  = "Tyger Tyger, burning bright\n"
+    seconSen  = "In the forests of the night\n"
+    thirdSen  = "What immortal hand or eye\n"
+    fourthSen = "Could frame thy fearful\
+                \ symmetry?"
+
+    sentenses :: String
+    sentenses = firstSen ++ seconSen ++ thirdSen ++ fourthSen
+
+    myLines :: String -> [String]
+    myLines x = go x []
+      where go x acc
+              | x == "" = reverse acc
+              | otherwise = go (dropWhile (=='\n') $ dropWhile (>'\n') x) (takeWhile (/='\n') x : acc)
+
+    shouldEqual :: [String]
+    shouldEqual =
+      [ "Tyger Tyger, burning bright"
+      , "In the forests of the night"
+      , "What immortal hand or eye"
+      , "Could frame thy fearful symmetry?"
+      ]
+
+    main :: IO ()
+    main =
+      print $
+        "Are they equal? "
+        ++ show (myLines sentenses == shouldEqual)
+    ```
