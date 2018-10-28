@@ -284,45 +284,6 @@ Prelude> dropWhile (=='a') "abracadabra"
 1.
     Using `takeWhile` and `dropWhile`, write a function that takes a string and returns a list of strings, using spaces to
     separate the elements of the string into words.
-    ```
-
-    The higher-order functions `takeWhile` and `dropWhile` are a bit different, as you can see from the type signatures:
-
-    ```haskell
-    takeWhile :: (a -> Bool) -> [a] -> [a]
-    dropWhile :: (a -> Bool) -> [a] -> [a]
-    ```
-
-    They take a function that returns a Bool, a _predicate_, and the functions will return elements of the list, while the
-    predicate holds true.
-
-    ```haskell
-    Prelude> takeWhile (<3) [1..10]
-    [1,2]
-
-  Prelude> takeWhile (>6) $ enumFromTo 1 10
-  []
-  -- returns an empty list, beause the predicate fails on the first element of the list
-  ```
-
-  `dropWhile` drops the first part of the list while the predicate is met.
-
-  ```haskell
-  Prelude> dropWhile (<3) [1..10]
-  [3,4,5,6,7,8,9,10]
-  Prelude> dropWhile (<8) (enumFromTo 5 15)
-  [8,9,10,11,12,13,14,15]
-  Prelude> dropWhile (>6) [1..10]
-  [1,2,3,4,5,6,7,8,9,10]
-  Prelude> dropWhile (=='a') "abracadabra"
-  "bracadabra"
-  ```
-
-### Exercises: Thy Fearful Symmetry
-
-1.
-    Using `takeWhile` and `dropWhile`, write a function that takes a string and returns a list of strings, using spaces to
-    separate the elements of the string into words.
     ```haskell
     myWords :: String -> [String]
     myWords x = go x []
@@ -529,5 +490,85 @@ Prelude> let myCube = [y^3 | y <- [1..5]]
     ```haskell
     length [(x, y) | x <- mySqr, y <- myCube, x < 50, y < 50]
     ```
+
+## 9.8 Spines and nonstrict evaluation
+
+As we have seen, lists are a recursive series of cons cells `a : [a]`, terminated bt the empty list.
+We want a way to visualise the structure, to understand how lists gets processsed.
+When we talk about data structures in Haskell, particulary lists, sequenses and trees, we talk about them having a _spine_.
+The connective tissue that ties the collection of values together.
+
+With lists, the spine is usually represented by the recursive cons operators, give the data: `[1, 2, 3]` we get a list
+that looks like:
+
+```
+1 : 2 : 3 : []
+or
+1 : (2 : (3 : []))
+ :
+/ \
+1  :
+  / \
+ 2   :
+    / \
+   3  []
+```
+
+The problem with the `1 : (2 : (3 : []))` representation we used earlier is that it makes it seem like the value 1 exists 
+“before” the cons (:) cell that contains it, but actually, the cons cells contain the values.
+Because of this and the way nonstrict evaluation works, you can evaluate cons cells independently of what they contain. It is possible to evaluate only the spine of the list without evaluating individual values. It is also possible to evaluate only part of the spine of a list and not the rest of it.
+
+Evaluation of the list in this representation proceeds down the spine. However, constructing the list (when that is necessary),
+proceeds _up_ the spine. In the example above we start with an infix operator, evaluate the arguments 1 and a new cons cell,
+and proceed downward to the 3 and the empty list. But when we need to build the list, and print it in the REPL, it proceeds
+from the bottom, up the spine, putting the 3 in the empty list, then adding 2 to the front of the list and so on.
+
+Because Haskell evaluation is non-strict, the list isn't constructed before we need it, before it is consumed. Nothing is, before it is needed.
+
+The rest is more about the above concepts, and you should just read it.
+
+## 9.9 Transforming lists of values
+
+This is all about `map` and `fmap`, probably the the most iconic function of any functional language. It allows you to go into a _Functor_ (more on those later), and transform the values inside. One such functor is a list!
+
+```haskell
+Prelude> map (+1) [1, 2, 3, 4]
+[2,3,4,5]
+Prelude> map (1-) [1, 2, 3, 4]
+[0,-1,-2,-3]
+Prelude> fmap (+1) [1, 2, 3, 4]
+[2,3,4,5]
+Prelude> fmap (2*) [1, 2, 3, 4]
+[2,4,6,8]
+Prelude> fmap id [1, 2, 3]
+[1,2,3]
+Prelude> map id [1, 2, 3]
+[1,2,3]
+```
+
+The types of `map` and `fmap` respectively are:
+
+```haskell
+map ::               (a -> b) -> [a] -> [b]
+fmap :: Functor f => (a -> b) -> f a -> fb
+```
+
+Here's how `map` is defined in base:
+
+```haskell
+map :: (a -> b) -> [a] -> [b]
+map _ []     = []
+map f (x:xs) = f x : map f xs
+```
+
+Here we can see that we pattern match on the list argument to map. If we get an empty list, we do not care which function `f`,
+we get, so we just throw it away with a `_` and return an empty list.
+Now that we've handled that case we know that we atleast have a one element list, so we pattern match on the cons constructor
+and apply f to the head, the `x`. Then we take the rest of the list and _map_ the function over it again - if we only have one
+element in the list, the function returns the empty list, and then we have `f x : []`, and if not we have a recursive function.
+
+The rest is again just more of how Haskell is lazy and just go read it.
+
+## 9.10 Filtering lists of values
 
 
