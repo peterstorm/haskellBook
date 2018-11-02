@@ -569,6 +569,115 @@ element in the list, the function returns the empty list, and then we have `f x 
 
 The rest is again just more of how Haskell is lazy and just go read it.
 
-## 9.10 Filtering lists of values
+## THE REST
 
+I have decided not to take so rigorous notes anymore, it is too time consuming. Therefor I will only add exercises and places
+where you have to write code yourself. So more of a solution document.
+
+## 9.12 Chapter Exercises
+
+### Data.Char
+
+```haskell
+module Char where
+
+import Data.Char
+
+filterUpper :: [Char] -> [Char]
+filterUpper = filter isUpper
+
+capFirst :: [Char] -> [Char]
+capFirst (x : xs) = toUpper x : xs
+
+capAll :: [Char] -> [Char]
+capAll []       = []
+capAll (x : xs) = toUpper x : (capAll xs)
+
+capOnlyFirst :: [Char] -> Char
+capOnlyFirst = toUpper . head
+```
+
+### Ciphers
+
+```haskell
+module Cipher where
+
+import Data.Char
+
+upperOrLower :: Char -> Int
+upperOrLower x = case isUpper x of
+                   False -> (mod ((ord x) - 96) 26) + 96
+                   True -> (mod ((ord x) - 64) 26) + 64
+
+encryptRight :: Int -> [Char] -> [Char]
+encryptRight _ []       = []
+encryptRight i (x : xs) = (chr . (+i) $ upperOrLower x) : (encryptRight i xs)
+
+decryptRight :: Int -> [Char] -> [Char]
+decryptRight _ []       = []
+decryptRight i (x : xs)
+  | isLower x, ((upperOrLower x) - 96 - i) <= 0 = (chr $ 122 - ((upperOrLower x) - 96 - i)) : (decryptRight i xs)
+  | isUpper x, ((upperOrLower x) - 64 - i) <= 0 = (chr $ 90 - ((upperOrLower x) - 64 - i)) : (decryptRight i xs)
+  | otherwise                                  = (chr $ ((upperOrLower x) - i)) : (decryptRight i xs)
+```
+
+### Writing your own standard functions
+
+```haskell
+myOr :: [Bool] -> Bool
+myOr [] = False
+myOr (x : xs) = x || myOr xs
+
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny _ []       = False
+myAny f (x : xs) = (f x) || (myAny f xs)
+
+myElem :: Eq a => a -> [a] -> Bool
+myElem _ []       = False
+myElem e (x : xs) = (e == x) || (myElem e xs)
+
+myElem' :: (Eq a, Foldable t) => a -> t a -> Bool
+myElem' e t = any (e==) t
+
+myReverse :: [a] -> [a]
+myReverse list = go list []
+  where go [] acc = acc
+        go (x : xs) acc = go xs (x : acc)
+
+squish :: [[a]] -> [a]
+squish [] = []
+squish (x : xs) = x ++ squish xs
+
+squishMap :: (a -> [b]) -> [a] -> [b]
+squishMap _ []       = []
+squishMap f (x : xs) = f x ++ squishMap f xs
+
+squishAgain :: [[a]] -> [a]
+squishAgain [] = []
+squishAgain xs = squishMap id xs
+
+myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
+myMaximumBy f (x : xs) = go f xs x
+  where go f (x : xs) z =
+          case f x z of
+            GT -> go f xs x
+            LT -> go f xs z
+            EQ -> go f xs x
+        go _ [] z      = z
+
+myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
+myMinimumBy f (x : xs) = go f xs x
+  where go f (x : xs) z =
+          case f x z of
+            GT -> go f xs z
+            LT -> go f xs x
+            EQ -> go f xs x
+        go _ [] z      = z
+
+myMaximum :: (Ord a) => [a] -> a
+myMaximum xs = myMaximumBy compare xs
+
+myMinimum :: (Ord a) => [a] -> a
+myMinimum xs = myMinimumBy compare xs
+```
 

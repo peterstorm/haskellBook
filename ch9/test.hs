@@ -9,41 +9,61 @@ safeTail []       = Nothing
 safeTail (x : []) = Nothing
 safeTail (x : xs) = Just xs
 
-eftBool :: Bool -> Bool -> [Bool]
-eftBool x y
-  | x > y     = []
-  | x == y    = [x]
-  | otherwise = [False, True]
+myOr :: [Bool] -> Bool
+myOr [] = False
+myOr (x : xs) = x || myOr xs
 
-eftOrd :: Ordering -> Ordering -> [Ordering]
-eftOrd x y = go x y []
-  where go x y acc
-          | x > y  = []
-          | x == y =  reverse (x : acc)
-          | otherwise = go (succ x) y (x : acc)
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny _ []       = False
+myAny f (x : xs) = (f x) || (myAny f xs)
 
-eftInt :: Int -> Int -> [Int]
-eftInt x y = go x y []
-  where go x y acc
-          | x > y = []
-          | x == y = reverse (x : acc)
-          | otherwise = go (succ x) y (x : acc)
+myElem :: Eq a => a -> [a] -> Bool
+myElem _ []       = False
+myElem e (x : xs) = (e == x) || (myElem e xs)
 
-eftChar :: Char -> Char -> [Char]
-eftChar x y = go x y []
-  where go x y acc
-          | x > y = []
-          | x == y = reverse (x : acc)
-          | otherwise = go (succ x) y (x : acc)
+myElem' :: (Eq a, Foldable t) => a -> t a -> Bool
+myElem' e t = any (e==) t
 
-myWords :: String -> [String]
+myReverse :: [a] -> [a]
+myReverse list = go list []
+  where go [] acc = acc
+        go (x : xs) acc = go xs (x : acc)
 
+squish :: [[a]] -> [a]
+squish [] = []
+squish (x : xs) = x ++ squish xs
 
-myWords x = go x []
-  where go x acc
-          | x == ""   = reverse acc
-          | otherwise = go (dropWhile (==' ') $ (dropWhile (/=' ') x)) ((takeWhile (/=' ') x) : acc)
+squishMap :: (a -> [b]) -> [a] -> [b]
+squishMap _ []       = []
+squishMap f (x : xs) = f x ++ squishMap f xs
 
+squishAgain :: [[a]] -> [a]
+squishAgain [] = []
+squishAgain xs = squishMap id xs
+
+myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
+myMaximumBy f (x : xs) = go f xs x
+  where go f (x : xs) z =
+          case f x z of
+            GT -> go f xs x
+            LT -> go f xs z
+            EQ -> go f xs x
+        go _ [] z      = z
+
+myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
+myMinimumBy f (x : xs) = go f xs x
+  where go f (x : xs) z =
+          case f x z of
+            GT -> go f xs z
+            LT -> go f xs x
+            EQ -> go f xs x
+        go _ [] z      = z
+
+myMaximum :: (Ord a) => [a] -> a
+myMaximum xs = myMaximumBy compare xs
+
+myMinimum :: (Ord a) => [a] -> a
+myMinimum xs = myMinimumBy compare xs
 
 main :: IO ()
 main = do
@@ -53,17 +73,3 @@ main = do
   let tail = safeTail [1, 2, 3, 4]
   putStrLn $ "The result of safeTail [1, 2, 3, 4] is: " ++ show tail
 
-  let eB = eftBool False True
-  putStrLn $ "The result of eftBool False True is: " ++ show eB
-
-  let eO = eftOrd LT GT
-  putStrLn $ "The result of eftOrd LT GT is: " ++ show eO
-
-  let eI = eftInt 10 20
-  putStrLn $ "The result of eftInt 10 12 is: " ++ show eI
-  
-  let eC = eftChar 'a' 'f'
-  putStrLn $ "The result of eftChar 'a' 'f' is: " ++ show eC 
-
-  let mW = myWords "I love Johanna"
-  putStrLn $ "The result of myWords \"I love Johanna\" is: " ++ show mW
