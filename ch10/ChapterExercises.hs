@@ -18,6 +18,7 @@ verb = [ "walks"
        , "yells"
        ]
 
+
 threeLetters :: [(Char, Char, Char)]
 threeLetters = [(x, y, z) | x <- stops, y <- vowels, z <- stops]
 
