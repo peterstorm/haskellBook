@@ -53,6 +53,10 @@ testPreorder =
   then putStrLn "Preorder fine!" 
   else putStrLn "Bad news bears."
 
+foldTree :: (a -> b -> b) -> b -> BinaryTree a -> b
+foldTree _ b Leaf                = b
+foldTree f b (Node left a right) = f a (foldTree f (foldTree f b left) right)
+
 testInorder :: IO () 
 testInorder =
   if inorder testTree == [1, 2, 3] 
@@ -65,9 +69,16 @@ testPostorder =
   then putStrLn "Postorder fine!"
   else putStrLn "postorder failed check"
 
+testFoldTree :: IO ()
+testFoldTree =
+  if foldTree (+) 0 testTree == 6
+  then putStrLn "foldMap fine!"
+  else putStrLn "foldMap failed check"
+
 main :: IO ()
 main = do
   mapOkay
   testPreorder
   testInorder
   testPostorder
+  testFoldTree
