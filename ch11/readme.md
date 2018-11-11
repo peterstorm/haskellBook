@@ -500,3 +500,15 @@ findWord = foldr (\a b -> if (snd a) >= (snd b) then a else b) ("", 0)
 coolestWord :: [String] -> String
 coolestWord xs = fst . findWord . countWords . filterDotsAndCommas . concat $ fmap words xs
 ```
+
+### Huttons's Razor
+
+```haskell
+eval :: Expr -> Integer
+eval (Lit n) = n
+eval (Add e1 e2) = (eval e1) + (eval e2)
+
+printExpr :: Expr -> String
+printExpr (Lit n) = show n
+printExpr (Add e1 e2) = (printExpr e1) ++ " + " ++ (printExpr e2)
+```

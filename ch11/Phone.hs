@@ -95,3 +95,5 @@ findWord = foldr (\a b -> if (snd a) >= (snd b) then a else b) ("", 0)
 
 coolestWord :: [String] -> String
 coolestWord xs = fst . findWord . countWords . filterDotsAndCommas . concat $ fmap words xs
+
+
