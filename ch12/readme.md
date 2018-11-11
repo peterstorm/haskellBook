@@ -188,3 +188,39 @@ either' _ g (Right b) = g b
 eitherMaybe'' :: (b -> c) -> Either a b -> Maybe c
 eitherMaybe'' f = either' (\a -> Nothing) (\b -> Just $ f b)
 ```
+
+### Unfolds
+```haskell
+module Unfolds where
+
+myIterate :: (a -> a) -> a -> [a]
+myIterate f a = [a] ++ (myIterate f (f a))
+
+myUnfoldr :: (b -> Maybe (a, b)) ->  b -> [a]
+myUnfoldr f b = case f b of
+                  Nothing     -> []
+                  Just (a, b) -> a : myUnfoldr f b
+
+betterIterate :: (a -> a) -> a -> [a]
+betterIterate f x = myUnfoldr (\b -> Just (b, f b)) x
+```
+
+### Treeeees
+```haskell
+module BinaryTree where
+
+data BinaryTree a = Leaf
+                  | Node (BinaryTree a) a (BinaryTree a)
+                  deriving (Eq, Ord, Show)
+
+unfold :: (a -> Maybe (a, b, a)) -> a -> BinaryTree b
+unfold f a = case f a of
+               Nothing        -> Leaf
+               Just (x, y, z) -> Node (unfold f x) y (unfold f z)
+
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild n = unfold f 0
+  where f a
+          | a < n     = Just (a + 1, a, a + 1)
+          | otherwise = Nothing
+```
