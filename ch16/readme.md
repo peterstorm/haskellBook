@@ -1,3 +1,6 @@
+# Chapter 15 - Functor
+
+```haskell
 {-# LANGUAGE FlexibleInstances #-}
 
 module FunctorInstances where
@@ -328,3 +331,4 @@ main = do
   putStrLn "Parappa test:"
   quickCheck (functorIdentity :: ParappaMaybeInt -> Bool)
   quickCheck (functorCompose :: ParappaFC)
+```
